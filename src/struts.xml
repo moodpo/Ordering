@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- 运行于开发者模式 -->
+	<constant name="struts.devMode" value="true"></constant>
+	<constant name="struts.i18n.reload" value="true"></constant>
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	
+	
+	<!-- 公共包  -->
+	<package name="public" namespace="/content/public" extends="struts-default">
+		<action name="user" class="com.moodpo.review.action.UserAction">
+			<result name="page.sign.success">/index.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 安全包  -->
+	<package name="secure" namespace="/secure" extends="struts-default">
+		
+		
+	</package>
+	
+	<!-- 管理包  -->
+	<package name="manage" namespace="/manage" extends="struts-default">
+		
+		
+	</package>
+</struts>
