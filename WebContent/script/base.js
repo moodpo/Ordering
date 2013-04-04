@@ -15,17 +15,7 @@ $(document).ready(function(){
 
 // 检查注册事件
 function checkSign(){
-	var mail = $("#usermail").val();
-	if(mail == ''){
-		
-	}
-	
-	$("#usermail").val();
-	
-	$("#userpwd").val();
-	
-	$("#valicode").val();
-	
+	$('#sign-form').submit();
 }
 
 

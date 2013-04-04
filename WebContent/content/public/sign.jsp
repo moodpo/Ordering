@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <%
 	String path = request.getContextPath();
 %>
@@ -8,8 +9,8 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>订餐系统 - 登录</title>
-<link rel="shortcut icon" href="favicon.ico" />
+<title>订餐系统 - 注册</title>
+<link rel="shortcut icon" href="<%=path %>/favicon.ico" />
 <link rel="stylesheet" href="<%=path %>/common/bootstrap/css/bootstrap.min.css" />
 <link rel="stylesheet" href="<%=path %>/style/css/base.css" />
 <script type="text/javascript" src="<%=path %>/common/modernizr.js"></script>
@@ -26,16 +27,15 @@
 						<ul class="nav">
 							<li><a href="<%=path %>">首页</a></li>
 							<li></li>
-							<li><a href="ordering.html">订餐</a></li>
-							<li><a href="order.html">订单</a></li>
+							<li><a href="ordering.jsp">订餐</a></li>
 						</ul>
 						<ul class="nav pull-right">
 							<!-- 未登录 -->
-							<li><a href="login.html">登录</a></li>
-							<li class="active"><a href="sign.html">注册</a></li>
+							<li><a href="login.jsp">登录</a></li>
+							<li class="active"><a href="sign.jsp">注册</a></li>
 							<li class="divider-vertical"></li>
-							<li><a href="help.html">帮助</a></li>
-							<li><a href="feedback.html">问题反馈</a></li>
+							<li><a href="help.jsp">帮助</a></li>
+							<li><a href="feedback.jsp">问题反馈</a></li>
 						</ul>
 					</div>
 				</div>
@@ -53,38 +53,47 @@
 					    <h3>用户注册</h3>
 				  	</div>
 					<div class="box-body">
-						<form class="form-horizontal" action="user!sign" method="post">
+						<s:form action="user!sign" id="sign-form" method="post" cssClass="form-horizontal">
+							<s:token></s:token>
 							<fieldset>
 								<div class="control-group">
 									<label class="control-label" for="usermail">公司邮箱：</label>
 									<div class="controls">
 										<div class="input-append">
-											<input name="user.email" type="text" class="input-medium" id="usermail"><span class="add-on">@ultrapower.com.cn</span>
+											<s:textfield name="user.email" cssClass="input-medium" id="usermail" /><span class="add-on">@ultrapower.com.cn</span>
 	              						</div>
 									</div>
 								</div>
 								<div class="control-group">
-									<label class="control-label" for="userpwd">密码：</label>
+									<label class="control-label" for="userpwd">登录名：</label>
 									<div class="controls">
-										<input name="user.userPWD" type="password" class="input-medium" id="userpwd">
+										<s:textfield name="user.loginName" cssClass="input-medium" id="loginName"/>
 									</div>
 								</div>
 								<div class="control-group">
 									<label class="control-label" for="valicode">验证码：</label>
 									<div class="controls">
-										<input name="valicode" id="valicode" class="input-small" type="text">
+										<s:textfield name="validateCode" id="valicode" cssClass="input-small"/>
 										<img title="点击更换验证码" class="valicodeimg" src="<%=path %>/Kaptcha.jpg" width="100">
 									</div>
 								</div>
-								<!-- <div class="alert fade in">
-									<a class="close" data-dismiss="alert" href="#">×</a>
-									<strong>警告！</strong> 您输入的邮箱地址不正确。
-								</div> -->
+								<s:if test="msg != null">
+									<div class="alert fade in">
+										<a class="close" data-dismiss="alert" href="#">×</a>
+										<strong>警告！</strong> <s:property value="msg"/>
+									</div>
+								</s:if>
+								<s:if test="msg == null">
+									<div class="alert fade in">
+										<a class="close" data-dismiss="alert" href="#">×</a>
+										<strong>提示！</strong> 请输入正确的公司邮箱，注册成功后系统将发送登录密码到邮箱；错误的邮箱地址将导致无法登陆系统。
+									</div>
+								</s:if>
 								<div class="form-actions">
 						        	<button type="button" class="btn btn-success btn-large" onclick="checkSign()">注册</button>
 						        </div>
 							</fieldset>
-						</form>
+						</s:form>
 					</div>
 					<div class="box-bottom">
 					</div>

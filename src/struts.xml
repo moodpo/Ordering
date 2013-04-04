@@ -7,12 +7,26 @@
 	<constant name="struts.devMode" value="true"></constant>
 	<constant name="struts.i18n.reload" value="true"></constant>
 	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<constant name="struts.ui.theme" value="simple"></constant>
+	<constant name="struts.action.extension" value="do"/>
 	
-	
-	<!-- 公共包  -->
+	<!-- 公共包  type="redirect" -->
 	<package name="public" namespace="/content/public" extends="struts-default">
-		<action name="user" class="com.moodpo.review.action.UserAction">
-			<result name="page.sign.success">/index.jsp</result>
+		<!-- <interceptors>
+			<interceptor-stack name="myTokenStack">
+				<interceptor-ref name="tokenSession"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+		<default-interceptor-ref name="myTokenStack"></default-interceptor-ref> -->
+		
+		<action name="user" class="com.moodpo.action.user.UserAction">
+			<!-- 注册 -->
+			<result name="page.sign.success" type="redirect">/content/public/login.jsp</result>
+			<result name="page.sign.fail">/content/public/sign.jsp</result>
+			<!-- 登录 -->
+			
 		</action>
 	</package>
 	
