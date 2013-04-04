@@ -46,23 +46,68 @@ public class UserAction extends BaseAction{
 		this.user = user;
 	}
 	
-	@Override
-	public String execute() throws Exception {
-		
-		return super.execute();
+	/**
+	 * 检查验证码
+	 * @return
+	 */
+	private boolean checkValidateCode(){
+		String code = getValidateCode();
+		logger.info("User input validateCode : " + code);
+		String kcode = (String) session.get(Constants.KAPTCHA_SESSION_KEY);
+		if(kcode != null && kcode.equals(code)){
+			return true;
+		}
+		return false;
 	}
 	
 	/**
-	 * 登录
+	 * 用户注册
+	 * @return
+	 * @throws Exception
+	 */
+	public String sign() throws Exception {
+		logger.info("user sign start.");
+		// ============ 检查验证码
+		if(this.checkValidateCode()){
+			// ============== 用户注册
+			String sign = userServiceImpl.sign(user);
+			if(sign != null){
+				// 注册失败，设置页面提示信息
+				this.setMsg(sign);
+				logger.info("user sign end.");
+				return ResultConstants.SIGN_FAIL;
+			}
+			logger.info("user sign end.");
+			return ResultConstants.SIGN_SUCCESS;
+		}
+		this.setMsg(OtherConstants.VALIDATE_CODE_ERROR);
+		logger.info("user sign end.");
+		return ResultConstants.SIGN_FAIL;
+	}
+	
+	
+	/**
+	 * 用户登录
 	 * @return
 	 * @throws Exception
 	 */
 	public String login() throws Exception {
-		
-		
-		
-		
-		return SUCCESS;
+		logger.info("user login start.");
+		// ============ 检查验证码
+		if(this.checkValidateCode()){
+			// 调用登录逻辑
+			String login = userServiceImpl.login(user,session);
+			if(login != null){
+				this.setMsg(login);
+				logger.info("user login end.");
+				return ResultConstants.LOGIN_FAIL;
+			}
+			logger.info("user login end.");
+			return ResultConstants.LOGIN_SUCCESS;
+		}
+		this.setMsg(OtherConstants.VALIDATE_CODE_ERROR);
+		logger.info("user login end.");
+		return ResultConstants.LOGIN_FAIL;
 	}
 	
 	/**
@@ -76,35 +121,6 @@ public class UserAction extends BaseAction{
 		return SUCCESS;
 	}
 	
-	/**
-	 * 用户注册
-	 * @return
-	 * @throws Exception
-	 */
-	public String sign() throws Exception {
-		logger.info("user sign start");
-		// ============ 检查验证码
-		String code = getValidateCode();
-		logger.info("User input validateCode : " + code);
-		String kcode = (String) session.get(Constants.KAPTCHA_SESSION_KEY);
-		if(kcode != null && kcode.equals(code)){
-			logger.info("validate code success");
-			// ============== 用户注册
-			String sign = userServiceImpl.sign(user);
-			if(sign != null){
-				// 注册失败，设置页面提示信息
-				this.setMsg(sign);
-				logger.info("validate email: " + user.getEmail() + " fail!");
-				logger.info("user sign end.");
-				return ResultConstants.SIGN_FAIL;
-			}
-			logger.info("user sign end.");
-			return ResultConstants.SIGN_SUCCESS;
-		}
-		this.setMsg(OtherConstants.VALIDATE_CODE_ERROR);
-		logger.info("validate code fail!");
-		logger.info("user sign end.");
-		return ResultConstants.SIGN_FAIL;
-	}
+	
 	
 }

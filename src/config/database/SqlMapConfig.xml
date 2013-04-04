@@ -11,8 +11,10 @@
 	<sqlMap resource="config/database/oracle/user.xml"/>
 	<!-- Guser -->
 	<sqlMap resource="config/database/oracle/guser.xml"/>
-	
-	
+	<!-- Group -->
+	<sqlMap resource="config/database/oracle/group.xml"/>
+	<!-- Money -->
+	<sqlMap resource="config/database/oracle/money.xml"/>
 	
 	
 	

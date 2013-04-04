@@ -10,10 +10,13 @@ package com.moodpo.utils;
 public class ResultConstants {
 	
 	/**
-	 * 注册成功
+	 * 注册成功跳转
 	 */
 	public static String SIGN_SUCCESS = "page.sign.success";
 	
+	/**
+	 * 注册失败返回注册页面
+	 */
 	public static String SIGN_FAIL = "page.sign.fail";
 	
 	/**
@@ -21,6 +24,9 @@ public class ResultConstants {
 	 */
 	public static String LOGIN_SUCCESS = "page.login.success";
 	
-	
+	/**
+	 * 登录失败返回登录页
+	 */
+	public static String LOGIN_FAIL = "page.login.fail";
 	
 }

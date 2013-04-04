@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <%
 	String path = request.getContextPath();
 %>
@@ -49,41 +50,43 @@
 				<!-- 注册 -->
 				<div class="span6 main-show" id="login-span">
 					<div class="box-top">
-					    <h3>用户注册</h3>
+					    <h3>用户登录</h3>
 				  	</div>
 					<div class="box-body">
-						<form class="form-horizontal" action="user!sign" method="post">
+						<s:form action="user!login" id="login-form" method="post" cssClass="form-horizontal">	
 							<fieldset>
 								<div class="control-group">
 									<label class="control-label" for="usermail">公司邮箱：</label>
 									<div class="controls">
 										<div class="input-append">
-											<input name="user.email" type="text" class="input-medium" id="usermail"><span class="add-on">@ultrapower.com.cn</span>
+											<s:textfield name="user.email" cssClass="input-medium" id="usermail" /><span class="add-on">@ultrapower.com.cn</span>
 	              						</div>
 									</div>
 								</div>
 								<div class="control-group">
 									<label class="control-label" for="userpwd">密码：</label>
 									<div class="controls">
-										<input name="user.userPWD" type="password" class="input-medium" id="userpwd">
+										<s:password name="user.userPWD" cssClass="input-medium" id="userpwd"/>
 									</div>
 								</div>
 								<div class="control-group">
 									<label class="control-label" for="valicode">验证码：</label>
 									<div class="controls">
-										<input name="validate.code" id="valicode" class="input-small" type="text">
+										<s:textfield name="validateCode" id="valicode" cssClass="input-small"/>
 										<img title="点击更换验证码" class="valicodeimg" src="<%=path %>/Kaptcha.jpg" width="100">
 									</div>
 								</div>
-								<!-- <div class="alert fade in">
-									<a class="close" data-dismiss="alert" href="#">×</a>
-									<strong>警告！</strong> 您输入的邮箱地址不正确。
-								</div> -->
+								<s:if test="msg != null">
+									<div class="alert fade in">
+										<a class="close" data-dismiss="alert" href="#">×</a>
+										<strong>警告！</strong> <s:property value="msg"/>
+									</div>
+								</s:if>
 								<div class="form-actions">
 						        	<button type="button" class="btn btn-success btn-large" onclick="checkLogin()">登录</button>
 						        </div>
 							</fieldset>
-						</form>
+						</s:form>
 					</div>
 					<div class="box-bottom">
 					</div>

@@ -23,4 +23,13 @@ public class SqlConstants {
 	 */
 	public static String GUSER_ADD = "addGuser";
 	
+	/**
+	 * 通过uid查询用户组
+	 */
+	public static String GROUP_QUERY_BY_UID = "selectGroupByUId";
+	
+	/**
+	 * 通过uid查询money
+	 */
+	public static String MONEY_FIND_BY_UID = "findMoneyByUId";
 }

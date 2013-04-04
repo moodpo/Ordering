@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<typeAlias alias="Group" type="com.moodpo.domain.Group"/>
+	<typeAlias alias="User" type="com.moodpo.domain.User"/>
+	
+	<resultMap id="GroupResultMap" class="Group">
+		<result property="id" column="GROUP_ID"/>
+		<result property="groupName" column="GROUP_NAME"/>
+	</resultMap>
+	
+	<!-- 通过uid查询分组 -->
+	<select id="selectGroupByUId" parameterClass="User" resultMap="GroupResultMap">
+		select * from ORDERING_GROUP where GROUP_ID in (select FK_GROUP_ID from ORDERING_GUSER where FK_USER_ID=#id#)
+	</select>
+	
+	
+</sqlMap>

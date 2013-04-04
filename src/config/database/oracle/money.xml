@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<typeAlias alias="Money" type="com.moodpo.domain.Money"/>
+	
+	<resultMap id="MoneyResultMap" class="Money">
+		<result property="id" column="MONEY_ID"/>
+		<result property="moneyValue" column="MONEY_VALUE"/>
+		<result property="userID" column="FK_USER_ID"/>
+	</resultMap>
+	
+	<!-- 通过uid查找 -->
+	<select id="findMoneyByUId" parameterClass="Money" resultMap="MoneyResultMap">
+		select * from ORDERING_MONEY where FK_USER_ID=#userID#
+	</select>
+	
+	
+	
+	
+</sqlMap>

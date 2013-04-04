@@ -1,6 +1,9 @@
 package com.moodpo.service.user;
 
+import java.util.Map;
+
 import com.moodpo.domain.User;
+import com.moodpo.exception.ServiceException;
 
 /**
  * user service
@@ -16,14 +19,14 @@ public interface IUserService {
 	 * @param user
 	 * @return
 	 */
-	public User findUserByEmail(User user);
+	public User findUserByEmail(User user) throws ServiceException;
 	
 	/**
 	 * 添加用户
 	 * @param user
 	 * @return String id
 	 */
-	public String addUser(User user);
+	public String addUser(User user) throws ServiceException;
 	
 	/**
 	 * 用户注册
@@ -34,6 +37,15 @@ public interface IUserService {
 	 * @param user
 	 * @return 错误信息
 	 */
-	public String sign(User user);
+	public String sign(User user) throws ServiceException;
 	
+	/**
+	 * 用户登录
+	 * 1. 查询邮箱
+	 * 2. 检查密码
+	 * 3. 初始化登录
+	 * @param usr
+	 * @return
+	 */
+	public String login(User user, Map<String,Object> session) throws ServiceException;
 }

@@ -1,5 +1,7 @@
 package com.moodpo.domain;
 
+import com.moodpo.common.Model;
+
 /**
  * 用户组类
  * @author xiaoxie
@@ -7,19 +9,10 @@ package com.moodpo.domain;
  * @email yangxiaoxiehaha@gmail.com
  * @version 1.0
  */
-public class Group {
-	
-	private String groupID;
-	
+public class Group extends Model{
+	private static final long serialVersionUID = 1L;
+
 	private String groupName;
-
-	public String getGroupID() {
-		return groupID;
-	}
-
-	public void setGroupID(String groupID) {
-		this.groupID = groupID;
-	}
 
 	public String getGroupName() {
 		return groupName;

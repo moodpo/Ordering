@@ -16,19 +16,34 @@ public class OtherConstants {
 	public static String EMAIL_EXIST = "您输入的邮箱已存在！";
 	
 	/**
+	 * 您输入的邮箱不存在！
+	 */
+	public static String EMAIL_NOT_EXIST = "您输入的邮箱不存在！";
+	
+	/**
 	 * 验证码输入错误！
 	 */
 	public static String VALIDATE_CODE_ERROR = "验证码输入错误！";
 	
 	/**
-	 * 系统发生异常，注册失败！
-	 */
-	public static String SIGN_FAIL = "系统发生异常，注册失败！";
-	
-	/**
 	 * 恭喜，注册成功，请到注册邮箱中收取邮件以获取登录信息。
 	 */
 	public static String SIGN_SUCCESS = "恭喜，注册成功，请到注册邮箱中收取邮件以获取登录信息。";
+	
+	/**
+	 * 对不起，您输入的密码不正确！
+	 */
+	public static String PASSWORD_ERROR = "对不起，您输入的密码不正确！";
+	
+	/**
+	 * 数据库连接异常，请检查网络或联系管理员！
+	 */
+	public static String DB_ERROR = "数据库连接异常，请检查网络或联系管理员！";
+	
+	/**
+	 * 未知错误，请联系管理员！
+	 */
+	public static String UNKNOW_ERROR = "未知错误，请联系管理员！";
 	
 	
 	
@@ -42,4 +57,10 @@ public class OtherConstants {
 	 * 普通用户组ID
 	 */
 	public static String USER_GROUP_ID = "1";
+	
+	/***************************************************/
+	/**
+	 * 已登录用户缓存session的key
+	 */
+	public static String USER_OBJ = "user.obj";
 }

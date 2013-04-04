@@ -64,7 +64,7 @@
 									</div>
 								</div>
 								<div class="control-group">
-									<label class="control-label" for="userpwd">登录名：</label>
+									<label class="control-label" for="userpwd">中文名：</label>
 									<div class="controls">
 										<s:textfield name="user.loginName" cssClass="input-medium" id="loginName"/>
 									</div>

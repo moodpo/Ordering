@@ -8,7 +8,8 @@
 	<constant name="struts.i18n.reload" value="true"></constant>
 	<constant name="struts.configuration.xml.reload" value="true"></constant>
 	<constant name="struts.ui.theme" value="simple"></constant>
-	<constant name="struts.action.extension" value="do"/>
+	<!-- <constant name="struts.action.extension" value="do"/> -->
+	<constant name="struts.custom.i18n.resources" value="resources/global-messages" />
 	
 	<!-- 公共包  type="redirect" -->
 	<package name="public" namespace="/content/public" extends="struts-default">
@@ -17,7 +18,11 @@
 			<result name="page.sign.success" type="redirect">/content/public/login.jsp</result>
 			<result name="page.sign.fail">/content/public/sign.jsp</result>
 			<!-- 登录 -->
-			
+			<result name="page.login.success" type="redirectAction">
+				<param name="actionName"></param>
+				<param name="namespace"></param>
+			</result>
+			<result name="page.login.fail">/content/public/login.jsp</result>
 		</action>
 	</package>
 	
