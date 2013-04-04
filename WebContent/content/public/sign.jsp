@@ -54,7 +54,6 @@
 				  	</div>
 					<div class="box-body">
 						<s:form action="user!sign" id="sign-form" method="post" cssClass="form-horizontal">
-							<s:token></s:token>
 							<fieldset>
 								<div class="control-group">
 									<label class="control-label" for="usermail">公司邮箱：</label>
