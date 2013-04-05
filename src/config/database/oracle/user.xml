@@ -21,12 +21,40 @@
 		select xiaoxie_seq.nextval  as id from dual
 		</selectKey>
 		insert into ORDERING_USER(USER_ID,USER_E_MAIL,USER_LOGIN,USER_PWD,USER_STATE) values
-		(#id#,#email#,#loginName#,#userPWD#,'00')
+		(#id#,#email#,#loginName#,#userPWD#,#userState#)
 	</insert>
 	
 	<!-- 通过用户邮箱查询 -->
 	<select id="findUserByEmail" parameterClass="User" resultMap="UserResultMap">
-		select * from ORDERING_USER where USER_E_MAIL = #email#
+		select * from ORDERING_USER where USER_E_MAIL = #email# 
+			<isNotEmpty property="userState" prepend="and">
+				USER_STATE = #userState#
+			</isNotEmpty>
 	</select>
+	
+	<!-- 通过用户id查询 -->
+	<select id="findUserById" parameterClass="String" resultMap="UserResultMap">
+		select * from ORDERING_USER where USER_ID = #id# 
+	</select>
+	
+	<!-- 更新用户 -->
+	<update id="updateUserById" parameterClass="User">
+		update ORDERING_USER set USER_ID=#id#
+		<isNotEmpty property="userPWD" prepend=",">
+			USER_PWD=#userPWD#
+		</isNotEmpty>
+		<isNotEmpty property="loginName" prepend=",">
+			USER_LOGIN=#loginName#
+		</isNotEmpty>
+		<isNotEmpty property="userState" prepend=",">
+			USER_STATE=#userState#
+		</isNotEmpty>
+		<isNotEmpty property="userCode" prepend=",">
+			USER_CODE=#userCode#
+		</isNotEmpty>
+		where USER_ID=#id#
+	</update>
+	
+	
 	
 </sqlMap>

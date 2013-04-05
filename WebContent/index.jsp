@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <%
 	String path = request.getContextPath();
 %>
@@ -25,12 +26,36 @@
 						<ul class="nav">
 							<li class="active"><a href="<%=path %>">首页</a></li>
 							<li></li>
-							<li><a href="<%=path %>/content/public/ordering.jsp">订餐</a></li>
+							<s:if test="#session.current_user_obj != null">
+								<s:set name="user" value="#session.current_user_obj" />
+								<li><a href="<%=path %>/content/secure/ordering.jsp">订餐</a></li>
+								<li><a href="<%=path %>/content/secure/order.jsp">订单</a></li>
+								<s:if test="#user.auth > 1">
+									<li><a href="<%=path %>/content/manage/dishes.jsp">菜品管理</a></li>
+									<li><a href="<%=path %>/content/manage/ordering.jsp">订餐管理</a></li>
+									<li><a href="<%=path %>/content/manage/order.jsp">订单管理</a></li>
+									<li><a href="<%=path %>/content/manage/user.jsp">用户管理</a></li>
+								</s:if>
+							</s:if>
 						</ul>
 						<ul class="nav pull-right">
 							<!-- 未登录 -->
-							<li><a href="<%=path %>/content/public/login.jsp">登录</a></li>
-							<li><a href="<%=path %>/content/public/sign.jsp">注册</a></li>
+							<s:if test="#session.current_user_obj == null">
+								<li><a href="<%=path %>/content/public/login.jsp">登录</a></li>
+								<li><a href="<%=path %>/content/public/sign.jsp">注册</a></li>
+							</s:if>
+							<!-- 已登录 -->
+							<s:if test="#session.current_user_obj != null">
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+										<s:property value="#user.loginName"/><b class="caret"></b></a>
+									<ul class="dropdown-menu">
+										<li><a href="<%=path %>/content/secure/userInfo.jsp">修改个人信息</a></li>
+										<li class="divider"></li>
+										<li><a href="<%=path %>/content/public/user!logout">退出</a></li>
+									</ul>
+					            </li>
+							</s:if>
 							<li class="divider-vertical"></li>
 							<li><a href="<%=path %>/content/public/help.jsp">帮助</a></li>
 							<li><a href="<%=path %>/content/public/feedback.jsp">问题反馈</a></li>

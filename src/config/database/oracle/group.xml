@@ -13,7 +13,7 @@
 	</resultMap>
 	
 	<!-- 通过uid查询分组 -->
-	<select id="selectGroupByUId" parameterClass="User" resultMap="GroupResultMap">
+	<select id="queryGroupByUId" parameterClass="User" resultMap="GroupResultMap">
 		select * from ORDERING_GROUP where GROUP_ID in (select FK_GROUP_ID from ORDERING_GUSER where FK_USER_ID=#id#)
 	</select>
 	

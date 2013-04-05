@@ -26,16 +26,14 @@
 						<a class="brand" href="<%=path %>">订餐系统</a>
 						<ul class="nav">
 							<li><a href="<%=path %>">首页</a></li>
-							<li></li>
-							<li><a href="ordering.jsp">订餐</a></li>
 						</ul>
 						<ul class="nav pull-right">
 							<!-- 未登录 -->
-							<li class="active"><a href="login.jsp">登录</a></li>
-							<li><a href="sign.jsp">注册</a></li>
+							<li class="active"><a href="<%=path %>/content/public/login.jsp">登录</a></li>
+							<li><a href="<%=path %>/content/public/sign.jsp">注册</a></li>
 							<li class="divider-vertical"></li>
-							<li><a href="help.jsp">帮助</a></li>
-							<li><a href="feedback.jsp">问题反馈</a></li>
+							<li><a href="<%=path %>/content/public/help.jsp">帮助</a></li>
+							<li><a href="<%=path %>/content/public/feedback.jsp">问题反馈</a></li>
 						</ul>
 					</div>
 				</div>
@@ -67,6 +65,7 @@
 									<label class="control-label" for="userpwd">密码：</label>
 									<div class="controls">
 										<s:password name="user.userPWD" cssClass="input-medium" id="userpwd"/>
+										<span class="help-inline"><a href="findPwd.jsp" id="findpwd">忘记密码？</a></span>
 									</div>
 								</div>
 								<div class="control-group">
@@ -77,13 +76,19 @@
 									</div>
 								</div>
 								<s:if test="msg != null">
-									<div class="alert fade in">
-										<a class="close" data-dismiss="alert" href="#">×</a>
-										<strong>警告！</strong> <s:property value="msg"/>
+									<div class="alert">
+										<a class="close">&times;</a>
+										<span class="alert-text"><strong>警告！</strong> <s:property value="msg"/> </span>
+									</div>
+								</s:if>
+								<s:if test="msg == null">
+									<div class="alert">
+										<a class="close">&times;</a>
+										<span class="alert-text"><strong>提示！</strong> 如果是第一次登录，请使用发送到邮箱里的密码。</span>
 									</div>
 								</s:if>
 								<div class="form-actions">
-						        	<button type="button" class="btn btn-success btn-large" onclick="checkLogin()">登录</button>
+						        	<button type="button" class="btn btn-success btn-large submitLogin">登录</button>
 						        </div>
 							</fieldset>
 						</s:form>

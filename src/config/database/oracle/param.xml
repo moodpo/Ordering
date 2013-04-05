@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<typeAlias alias="Param" type="com.moodpo.domain.Param"/>
+	
+	<resultMap class="Param" id="ParamResultMap">
+		<result property="id" column="PARAM_ID"/>
+		<result property="paramCode" column="PARAM_CODE"/>
+		<result property="paramName" column="PARAM_NAME"/>
+		<result property="paramDis" column="PARAM_DIS"/>
+		<result property="paramValue" column="PARAM_VALUE"/>
+	</resultMap>
+	
+	<!-- 通过code查询param -->
+	<select id="findParamByCode" resultMap="ParamResultMap" parameterClass="Param">
+		select * from ORDERING_PARAM where PARAM_CODE=#paramCode#
+	</select>
+	
+</sqlMap>

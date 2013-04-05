@@ -166,6 +166,27 @@ hr.soften {
 }
 
 
+/* ordering css ================================ */
+.main-show .table th, 
+.main-show .table td{
+	vertical-align: middle;
+}
+
+.main-show .table td select{
+	margin-bottom: 0;
+	padding: 0;
+	margin: 2px;
+	height: 20px;
+	line-height: 20px;
+}
+
+.main-show .table td label{
+	display: inline;
+	margin: 0 5px 0 2px;
+}
+
+
+
 /* pagination css ============================== */
 .mypagination{
 	height: 24px;
@@ -209,8 +230,8 @@ hr.soften {
 	line-height: 24px;
 }
 
-.mypagination li.page-first a{
-	/* background: url("../img/page_first.gif") no-repeat; */
+.mypagination .small-span{
+	width: 20px;
 }
 
 .mypageinfo{

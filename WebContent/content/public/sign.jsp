@@ -27,15 +27,15 @@
 						<ul class="nav">
 							<li><a href="<%=path %>">首页</a></li>
 							<li></li>
-							<li><a href="ordering.jsp">订餐</a></li>
+							<li><a href="<%=path %>/content/public/ordering.jsp">订餐</a></li>
 						</ul>
 						<ul class="nav pull-right">
 							<!-- 未登录 -->
-							<li><a href="login.jsp">登录</a></li>
-							<li class="active"><a href="sign.jsp">注册</a></li>
+							<li><a href="<%=path %>/content/public/login.jsp">登录</a></li>
+							<li class="active"><a href="<%=path %>/content/public/sign.jsp">注册</a></li>
 							<li class="divider-vertical"></li>
-							<li><a href="help.jsp">帮助</a></li>
-							<li><a href="feedback.jsp">问题反馈</a></li>
+							<li><a href="<%=path %>/content/public/help.jsp">帮助</a></li>
+							<li><a href="<%=path %>/content/public/feedback.jsp">问题反馈</a></li>
 						</ul>
 					</div>
 				</div>
@@ -77,19 +77,19 @@
 									</div>
 								</div>
 								<s:if test="msg != null">
-									<div class="alert fade in">
-										<a class="close" data-dismiss="alert" href="#">×</a>
-										<strong>警告！</strong> <s:property value="msg"/>
+									<div class="alert">
+										<a class="close">&times;</a>
+										<span class="alert-text"><strong>警告！</strong> <s:property value="msg"/> </span>
 									</div>
 								</s:if>
 								<s:if test="msg == null">
-									<div class="alert fade in">
-										<a class="close" data-dismiss="alert" href="#">×</a>
-										<strong>提示！</strong> 请输入正确的公司邮箱，注册成功后系统将发送登录密码到邮箱；错误的邮箱地址将导致无法登陆系统。
+									<div class="alert">
+										<a class="close">&times;</a>
+										<span class="alert-text"><strong>提示！</strong> 请输入正确的公司邮箱，注册成功后系统将发送登录密码到邮箱；错误的邮箱地址将导致无法登陆系统。</span>
 									</div>
 								</s:if>
 								<div class="form-actions">
-						        	<button type="button" class="btn btn-success btn-large" onclick="checkSign()">注册</button>
+						        	<button type="button" class="btn btn-success btn-large submitSign">注册</button>
 						        </div>
 							</fieldset>
 						</s:form>

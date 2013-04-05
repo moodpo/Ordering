@@ -83,7 +83,7 @@ public class UserServiceImpl implements IUserService{
 		@SuppressWarnings("static-access")
 		String randomStr = random.toHexString(random);// 随机数
 		String password = MD5.getMD5(email + randomStr);// 密码串
-		logger.info("randomStr : " + randomStr);
+		logger.info("################## randomStr : " + randomStr);
 		
 		User u = new User();
 		u.setEmail(email);
@@ -101,6 +101,7 @@ public class UserServiceImpl implements IUserService{
 		// 添加用户
 		String userID = null;
 		try {
+			u.setUserState(OtherConstants.STATE_YES);
 			userID = userDaoImpl.add(u, SqlConstants.USER_ADD);
 		} catch (DBException e) {
 			logger.error(OtherConstants.DB_ERROR,e);
@@ -133,6 +134,7 @@ public class UserServiceImpl implements IUserService{
 		User u = new User();
 		u.setEmail(email);
 		u.setUserPWD(password);
+		u.setUserState(OtherConstants.STATE_YES);
 		// 查询邮箱
 		User fu = this.findUserByEmail(u);
 		// 邮箱不存在
@@ -152,11 +154,18 @@ public class UserServiceImpl implements IUserService{
 			@SuppressWarnings("rawtypes")
 			List list = groupDaoImpl.query(fu, SqlConstants.GROUP_QUERY_BY_UID);
 			List<Group> groups = new ArrayList<Group>();
+			int temp = 0;
 			for (Object object : list) {
 				Group group = (Group)object;
+				// groupID 的大小决定了权限的高低
+				int groupID = Integer.parseInt(group.getId());
+				if(groupID > 0){
+					temp = groupID;
+				}
 				groups.add(group);
 			}
 			fu.setGroups(groups);
+			fu.setAuth(String.valueOf(temp));
 		} catch (DBException e) {
 			logger.error(OtherConstants.DB_ERROR,e);
 			return OtherConstants.DB_ERROR;
@@ -179,8 +188,74 @@ public class UserServiceImpl implements IUserService{
 			return OtherConstants.DB_ERROR;
 		}
 		// 3.缓存到session
-		session.put(OtherConstants.USER_OBJ, fu);
+		session.put(OtherConstants.CURRENT_USER, fu);
+		return null;
+	}
+	
+	
+	public String findPwd(User user) throws ServiceException{
+		// 添加后缀
+		String email = user.getEmail() + SysConfig.getConfig(SysConfig.EMAIL_SUFFIX);
+		// 查询邮箱
+		User u = new User();
+		u.setEmail(email);
+		u.setUserState(OtherConstants.STATE_YES);
+		User fu = this.findUserByEmail(u);
+		// 邮箱不存在
+		if(fu == null){
+			logger.info("Email is not exist !");
+			return OtherConstants.EMAIL_NOT_EXIST;
+		}
+		// 重新生成加密密码
+		Long random=System.currentTimeMillis();
+		@SuppressWarnings("static-access")
+		String randomStr = random.toHexString(random);// 随机数
+		String password = MD5.getMD5(email + randomStr);// 密码串
+		logger.info("################## randomStr : " + randomStr);
+		fu.setUserPWD(password);
+		// 更新数据
+		try {
+			userDaoImpl.update(fu, SqlConstants.USER_UPDATE_BY_ID);
+		} catch (DBException e) {
+			logger.error(OtherConstants.DB_ERROR,e);
+			return OtherConstants.DB_ERROR;
+		}
+		// 发送邮件
+		
+		
 		return null;
 	}
 
+	public String alterName(User user) throws ServiceException {
+		try {
+			userDaoImpl.update(user, SqlConstants.USER_UPDATE_BY_ID);
+		} catch (DBException e) {
+			logger.error(OtherConstants.DB_ERROR,e);
+			return OtherConstants.DB_ERROR;
+		}
+		return null;
+	}
+
+	public String alertPwd(User user, String newPwd) throws ServiceException {
+		// 通过id查询user
+		try {
+			User fu = (User)userDaoImpl.find(user.getId(), SqlConstants.USER_FIND_BY_ID);
+			String password = user.getUserPWD();
+			String email = fu.getEmail();
+			password = MD5.getMD5(email + password);
+			if(!fu.getUserPWD().equals(password)){
+				// 旧密码输入错误
+				logger.info("Password is error !");
+				return OtherConstants.PASSWORD_ERROR;
+			}
+			// 修改密码
+			String endPwd = MD5.getMD5(email + newPwd);
+			fu.setUserPWD(endPwd);
+			userDaoImpl.update(fu, SqlConstants.USER_UPDATE_BY_ID);
+		} catch (DBException e) {
+			logger.error(OtherConstants.DB_ERROR,e);
+			return OtherConstants.DB_ERROR;
+		}
+		return null;
+	}
 }

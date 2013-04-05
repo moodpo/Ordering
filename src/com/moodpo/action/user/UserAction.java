@@ -29,7 +29,25 @@ public class UserAction extends BaseAction{
 	
 	private User user;
 	private String validateCode;
+	private String newPwd;
+	private String infoFlag;
 	
+	public String getInfoFlag() {
+		return infoFlag;
+	}
+
+	public void setInfoFlag(String infoFlag) {
+		this.infoFlag = infoFlag;
+	}
+
+	public String getNewPwd() {
+		return newPwd;
+	}
+
+	public void setNewPwd(String newPwd) {
+		this.newPwd = newPwd;
+	}
+
 	public String getValidateCode() {
 		return validateCode;
 	}
@@ -48,14 +66,18 @@ public class UserAction extends BaseAction{
 	
 	/**
 	 * 检查验证码
+	 * @param setMsg 是否要设置msg
 	 * @return
 	 */
-	private boolean checkValidateCode(){
+	private boolean checkValidateCode(boolean setMsg){
 		String code = getValidateCode();
 		logger.info("User input validateCode : " + code);
 		String kcode = (String) session.get(Constants.KAPTCHA_SESSION_KEY);
 		if(kcode != null && kcode.equals(code)){
 			return true;
+		}
+		if(setMsg){
+			this.setMsg(OtherConstants.VALIDATE_CODE_ERROR);
 		}
 		return false;
 	}
@@ -68,7 +90,7 @@ public class UserAction extends BaseAction{
 	public String sign() throws Exception {
 		logger.info("user sign start.");
 		// ============ 检查验证码
-		if(this.checkValidateCode()){
+		if(this.checkValidateCode(true)){
 			// ============== 用户注册
 			String sign = userServiceImpl.sign(user);
 			if(sign != null){
@@ -80,7 +102,6 @@ public class UserAction extends BaseAction{
 			logger.info("user sign end.");
 			return ResultConstants.SIGN_SUCCESS;
 		}
-		this.setMsg(OtherConstants.VALIDATE_CODE_ERROR);
 		logger.info("user sign end.");
 		return ResultConstants.SIGN_FAIL;
 	}
@@ -94,7 +115,7 @@ public class UserAction extends BaseAction{
 	public String login() throws Exception {
 		logger.info("user login start.");
 		// ============ 检查验证码
-		if(this.checkValidateCode()){
+		if(this.checkValidateCode(true)){
 			// 调用登录逻辑
 			String login = userServiceImpl.login(user,session);
 			if(login != null){
@@ -102,10 +123,19 @@ public class UserAction extends BaseAction{
 				logger.info("user login end.");
 				return ResultConstants.LOGIN_FAIL;
 			}
-			logger.info("user login end.");
-			return ResultConstants.LOGIN_SUCCESS;
+			// 根据用户的权限转发并初始化页面
+			User currUser = (User)session.get(OtherConstants.CURRENT_USER);
+			// 管理员登录
+			if(OtherConstants.ADMIN_GROUP_ID.equals(currUser.getAuth())){
+				logger.info("Admin user login system !");
+				return ResultConstants.LOGIN_SUCCESS_ADMIN;
+			}
+			// 普通用户登录
+			if(OtherConstants.USER_GROUP_ID.equals(currUser.getAuth())){
+				logger.info(currUser.getLoginName() + " user login system !");
+				return ResultConstants.LOGIN_SUCCESS_USER;
+			}
 		}
-		this.setMsg(OtherConstants.VALIDATE_CODE_ERROR);
 		logger.info("user login end.");
 		return ResultConstants.LOGIN_FAIL;
 	}
@@ -116,11 +146,83 @@ public class UserAction extends BaseAction{
 	 * @throws Exception
 	 */
 	public String logout() throws Exception {
-		
-		
+		logger.info("User had logout system !");
+		session.clear();
 		return SUCCESS;
 	}
 	
+	/**
+	 * 找回密码
+	 * @return
+	 * @throws Exception
+	 */
+	public String findPwd() throws Exception{
+		logger.info("user findPwd start.");
+		// ============ 检查验证码
+		if(this.checkValidateCode(true)){
+			// 调用找回密码逻辑
+			String findPwd = userServiceImpl.findPwd(user);
+			if(findPwd != null){
+				this.setMsg(findPwd);
+				logger.info("user findPwd end.");
+				return ResultConstants.FIND_PWD_FAIL;
+			}
+			logger.info("user findPwd end.");
+			return ResultConstants.FIND_PWD_SUCCESS;
+		}
+		logger.info("user findPwd end.");
+		return ResultConstants.FIND_PWD_FAIL;
+	}
 	
+	/**
+	 * 修改中文名称
+	 * @return
+	 * @throws Exception
+	 */
+	public String alterName() throws Exception{
+		this.setInfoFlag(OtherConstants.BASE_INFO);
+		logger.info("user alterName start.");
+		// 调用修改服务
+		String alter = userServiceImpl.alterName(user);
+		if(alter != null){
+			this.setMsg(alter);
+			logger.info("user alterName end.");
+			return ResultConstants.ALTER_NAME_FAIL; 
+		}
+		// 更新缓存的session
+		User currUser = (User)session.get(OtherConstants.CURRENT_USER);
+		currUser.setLoginName(user.getLoginName());
+		session.put(OtherConstants.CURRENT_USER,currUser);
+		
+		logger.info("user alterName end.");
+		return ResultConstants.ALTER_NAME_SUCCESS;
+	}
 	
+	/**
+	 * 修改密码
+	 * @return
+	 * @throws Exception
+	 */
+	public String alterPwd() throws Exception{
+		this.setInfoFlag(OtherConstants.ALERT_PWD);
+		logger.info("user alterPwd start.");
+		// ============ 检查验证码 不设置msg
+		if(this.checkValidateCode(false)){
+			// 调用修改服务
+			String alter = userServiceImpl.alertPwd(user, newPwd);
+			if(alter != null){
+				addFieldError(OtherConstants.FIELD_OLDPWD_CODE, OtherConstants.PASSWORD_ERROR);
+				logger.info("user alterPwd end.");
+				return ResultConstants.ALTER_PWD_FAIL; 
+			}
+			// 退出系统重新登录
+			logger.info("User had logout system !");
+			session.clear();
+			logger.info("user alterPwd end.");
+			return ResultConstants.ALTER_PWD_SUCCESS;
+		}
+		addFieldError(OtherConstants.FIELD_VALIDATE_CODE, OtherConstants.VALIDATE_CODE_ERROR);
+		logger.info("user alterPwd end.");
+		return ResultConstants.ALTER_PWD_FAIL; 
+	}
 }

@@ -15,8 +15,12 @@
 	<sqlMap resource="config/database/oracle/group.xml"/>
 	<!-- Money -->
 	<sqlMap resource="config/database/oracle/money.xml"/>
-	
-	
+	<!-- Dic -->
+	<sqlMap resource="config/database/oracle/dic.xml"/>
+	<!-- Price -->
+	<sqlMap resource="config/database/oracle/price.xml"/>
+	<!-- Param -->
+	<sqlMap resource="config/database/oracle/param.xml"/>
 	
 </sqlMapConfig>
 

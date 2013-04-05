@@ -20,13 +20,57 @@ public class ResultConstants {
 	public static String SIGN_FAIL = "page.sign.fail";
 	
 	/**
-	 * 登录成功
+	 * 管理员登录
 	 */
-	public static String LOGIN_SUCCESS = "page.login.success";
+	public static String LOGIN_SUCCESS_ADMIN = "page.login.success.admin";
+	
+	/**
+	 * 普通用户登录
+	 */
+	public static String LOGIN_SUCCESS_USER = "page.login.success.user";
 	
 	/**
 	 * 登录失败返回登录页
 	 */
 	public static String LOGIN_FAIL = "page.login.fail";
 	
+	/**
+	 * 找回密码成功跳转
+	 */
+	public static String FIND_PWD_SUCCESS = "page.findPwd.success";
+	
+	/**
+	 * 找回密码失败
+	 */
+	public static String FIND_PWD_FAIL = "page.findPwd.fail";
+	
+	/**
+	 * 修改中文名成功
+	 */
+	public static String ALTER_NAME_SUCCESS = "page.alertName.success";
+	
+	/**
+	 * 修改中文名失败
+	 */
+	public static String ALTER_NAME_FAIL = "page.alertName.fail";
+	
+	/**
+	 * 修改密码成功
+	 */
+	public static String ALTER_PWD_SUCCESS = "page.alertPwd.success";
+	
+	/**
+	 * 修改密码失败
+	 */
+	public static String ALTER_PWD_FAIL = "page.alertPwd.fail";
+	
+	/**
+	 * 初始化今日菜单成功
+	 */
+	public static String TODAY_ORDERING_SUCCESS = "today.ordering.success";
+	
+	/**
+	 * 初始化今日菜单失败
+	 */
+	public static String TODAY_ORDERING_FAIL = "today.ordering.fail";
 }

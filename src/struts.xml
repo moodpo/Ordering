@@ -17,23 +17,37 @@
 			<!-- 注册 -->
 			<result name="page.sign.success" type="redirect">/content/public/login.jsp</result>
 			<result name="page.sign.fail">/content/public/sign.jsp</result>
-			<!-- 登录 -->
-			<result name="page.login.success" type="redirectAction">
-				<param name="actionName"></param>
-				<param name="namespace"></param>
-			</result>
+			<!-- 管理员 -->
+			<result name="page.login.success.admin" type="redirect">/content/manage/order.jsp</result>
+			<!-- 普通用户 -->
+			<result name="page.login.success.user" type="redirect">/content/secure/ordering.jsp</result>
 			<result name="page.login.fail">/content/public/login.jsp</result>
+			<!-- 找回密码 -->
+			<result name="page.findPwd.success" type="redirect">/content/public/login.jsp</result>
+			<result name="page.findPwd.fail">/content/public/findPwd.jsp</result>
+			<!-- 退出 -->
+			<result type="redirect">/index.jsp</result>
 		</action>
 	</package>
 	
 	<!-- 安全包  -->
-	<package name="secure" namespace="/secure" extends="struts-default">
-		
+	<package name="secure" namespace="/content/secure" extends="struts-default">
+		<!-- 修改个人信息 -->
+		<action name="user" class="com.moodpo.action.user.UserAction">
+			<result name="page.alertName.success" type="redirect">/content/secure/userInfo.jsp</result>
+			<result name="page.alertName.fail">/content/secure/userInfo.jsp</result>
+			<result name="page.alertPwd.success" type="redirect">/content/public/login.jsp</result>
+			<result name="page.alertPwd.fail">/content/secure/userInfo.jsp</result>
+		</action>
+		<!-- 订餐 -->
+		<action name="ordering" class="com.moodpo.action.ordering.OrderingAction">
+			
+		</action>
 		
 	</package>
 	
 	<!-- 管理包  -->
-	<package name="manage" namespace="/manage" extends="struts-default">
+	<package name="manage" namespace="/content/manage" extends="struts-default">
 		
 		
 	</package>

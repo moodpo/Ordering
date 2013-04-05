@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<typeAlias alias="Dic" type="com.moodpo.domain.Dic"/>
+	
+	<resultMap class="Dic" id="DicResultMap">
+		<result property="id" column="DIC_ID"/>
+		<result property="dicName" column="DIC_NAME"/>
+		<result property="priceID" column="FK_PRICE_ID"/>
+		<result property="dicState" column="DIC_STATE"/>
+	</resultMap>
+	
+	<!-- 通过price_id查询 -->
+	<select id="queryDicByPriceId" parameterClass="Dic" resultMap="DicResultMap">
+		select * from ORDERING_DIC where FK_PRICE_ID=#priceID# and DIC_STATE=#dicState#
+	</select>
+	
+</sqlMap>

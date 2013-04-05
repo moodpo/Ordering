@@ -48,4 +48,32 @@ public interface IUserService {
 	 * @return
 	 */
 	public String login(User user, Map<String,Object> session) throws ServiceException;
+	
+	/**
+	 * 找回密码
+	 * 1. 查询邮箱
+	 * 2. 重置密码
+	 * 3. 发送邮件
+	 * @param user
+	 * @return
+	 * @throws ServiceException
+	 */
+	public String findPwd(User user) throws ServiceException;
+	
+	/**
+	 * 修改中文名
+	 * 1. 修改
+	 * @param user
+	 * @return
+	 * @throws ServiceException
+	 */
+	public String alterName(User user) throws ServiceException;
+	
+	/**
+	 * 修改密码
+	 * @param user
+	 * @return
+	 * @throws ServiceException
+	 */
+	public String alertPwd(User user, String newPwd) throws ServiceException;
 }
