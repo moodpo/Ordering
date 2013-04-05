@@ -35,7 +35,7 @@ public class UserInterceptor implements Interceptor{
         Map<String,Object> session = ctx.getSession();
 		User user = (User)session.get(OtherConstants.CURRENT_USER);
 		if(user != null){
-			logger.info("The user: " + user.getLoginName() + " pass UserInterceptor.");
+			logger.info("The user pass UserInterceptor.");
 			return invocation.invoke();
 		}
 		logger.info("The user has been interceptor by UserInterceptor !");

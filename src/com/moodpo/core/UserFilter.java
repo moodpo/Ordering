@@ -93,10 +93,10 @@ public class UserFilter implements Filter {
             	 res.setCharacterEncoding("UTF-8");
             	 res.getOutputStream().print("Session Timeout.");
             	 res.getOutputStream().close();
-                 logger.info("XMLHttpRequest be filter!");
+                 logger.info("The AJAX be filter!");
                  return;
              }
-			logger.info("The user be filter!");
+			logger.info("The url be filter!");
 			req.getRequestDispatcher(LOGIN_PAGE_VALUE).forward(req, res);
 			return;
 		}

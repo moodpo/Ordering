@@ -132,7 +132,7 @@ public class UserAction extends BaseAction{
 			}
 			// 普通用户登录
 			if(OtherConstants.USER_GROUP_ID.equals(currUser.getAuth())){
-				logger.info(currUser.getLoginName() + " user login system !");
+				logger.info("A user login system !");
 				return ResultConstants.LOGIN_SUCCESS_USER;
 			}
 		}
