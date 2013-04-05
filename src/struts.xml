@@ -8,7 +8,7 @@
 	<constant name="struts.i18n.reload" value="true"></constant>
 	<constant name="struts.configuration.xml.reload" value="true"></constant>
 	<constant name="struts.ui.theme" value="simple"></constant>
-	<!-- <constant name="struts.action.extension" value="do"/> -->
+	<!-- <constant name="struts.action.extension" value=""/> -->
 	<constant name="struts.custom.i18n.resources" value="resources/global-messages" />
 	
 	<!-- 公共包  type="redirect" -->
@@ -32,6 +32,21 @@
 	
 	<!-- 安全包  -->
 	<package name="secure" namespace="/content/secure" extends="struts-default">
+		<!-- 用户拦截器 -->
+		<interceptors>
+			<interceptor name="UserInterceptor" class="com.moodpo.core.UserInterceptor"></interceptor>
+			<interceptor-stack name="secureStack">
+				<interceptor-ref name="UserInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+		<default-interceptor-ref name="secureStack"></default-interceptor-ref>
+		
+		<global-results>
+			<result name="login">/content/public/login.jsp</result>
+		</global-results>
+		
 		<!-- 修改个人信息 -->
 		<action name="user" class="com.moodpo.action.user.UserAction">
 			<result name="page.alertName.success" type="redirect">/content/secure/userInfo.jsp</result>
@@ -43,6 +58,8 @@
 		<action name="ordering" class="com.moodpo.action.ordering.OrderingAction">
 			
 		</action>
+		
+		
 		
 	</package>
 	

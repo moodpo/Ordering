@@ -21,6 +21,7 @@
 		<header id="page-header">
 			<div class="navbar navbar-fixed-top">
 				<div class="navbar-inner">
+					<!-- nav -->
 					<div class="container">
 						<a class="brand" href="<%=path %>">订餐系统</a>
 						<ul class="nav">
@@ -61,6 +62,7 @@
 							<li><a href="<%=path %>/content/public/feedback.jsp">问题反馈</a></li>
 						</ul>
 					</div>
+					<!-- /nav -->
 				</div>
 			</div>
 		</header>

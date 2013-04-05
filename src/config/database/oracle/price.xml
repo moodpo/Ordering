@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<typeAlias alias="Price" type="com.moodpo.domain.Price"/>
+	
+	<resultMap class="Price" id="PriceResultMap">
+		<result property="id" column="PRICE_ID"/>
+		<result property="priceName" column="PRICE_NAME"/>
+		<result property="priceValue" column="PRICE_VALUE"/>
+		<result property="priceNum" column="PRICE_NUM"/>
+		<result property="priceState" column="PRICE_STATE"/>
+		<result property="priceRes" column="PRICE_RES"/>
+	</resultMap>
+	
+	<!-- 通过state查询 -->
+	<select id="queryPriceByState" resultMap="PriceResultMap">
+		select * from ORDERING_PRICE where PRICE_STATE = #priceState#
+	</select>
+	
+</sqlMap>
