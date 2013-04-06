@@ -129,4 +129,9 @@ public class OtherConstants {
 	 */
 	public static String NUM_LIST = "num_list";
 	
+	/**
+	 * 订餐页面当前提交索引
+	 */
+	public static String CURRENT_INDEX = "current_index";
+	
 }

@@ -2,6 +2,7 @@ package com.moodpo.service.ordering;
 
 import java.util.List;
 
+import com.moodpo.domain.Dic;
 import com.moodpo.domain.Price;
 import com.moodpo.exception.ServiceException;
 
@@ -19,4 +20,12 @@ public interface IOrderingService {
 	 */
 	public List<Price> todayOrdering() throws ServiceException;
 	
+	/**
+	 * 查询用户选择的菜品详细信息
+	 * 通过dic查询dic的详细内容 ，
+	 * 通过price id 查询详细内容
+	 * @return
+	 * @throws ServiceException
+	 */
+	public Price selectDetail(Price price, Dic dic) throws ServiceException;
 }

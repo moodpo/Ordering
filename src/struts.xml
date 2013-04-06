@@ -56,7 +56,7 @@
 		</action>
 		<!-- 订餐 -->
 		<action name="ordering" class="com.moodpo.action.ordering.OrderingAction">
-			
+			<result name="page.selected.ordering.success" type="redirect">/content/secure/ordering.jsp</result>
 		</action>
 		
 		

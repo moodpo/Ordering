@@ -65,6 +65,26 @@ public class OrderingServiceImpl implements IOrderingService{
 		return null;
 	}
 
+	public Price selectDetail(Price price, Dic dic) throws ServiceException {
+		try {
+			int priceNum = price.getPriceNum();
+			// 通过dic查询dic的详细内容 
+			dic = (Dic)dicDaoImpl.find(dic.getId(), SqlConstants.DIC_FIND_BY_ID);
+			// 通过price id 查询详细内容
+			price = (Price)orderingDaoImpl.find(price.getId(), SqlConstants.PRICE_FIND_BY_ID);
+			if(price != null){
+				List<Dic> dics = new ArrayList<Dic>();
+				dics.add(dic);
+				price.setDics(dics);
+				price.setPriceNum(priceNum);
+				return price;
+			}
+		} catch (DBException e) {
+			logger.error(OtherConstants.DB_ERROR,e);
+		}
+		return null;
+	}
+
 	
 	
 }

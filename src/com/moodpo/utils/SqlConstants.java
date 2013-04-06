@@ -49,9 +49,19 @@ public class SqlConstants {
 	public static String PRICE_QUERY_BY_STATE = "queryPriceByState";
 	
 	/**
+	 * 通过id查询price
+	 */
+	public static String PRICE_FIND_BY_ID = "findPriceById";
+	
+	/**
 	 * 通过priceId查询dic
 	 */
 	public static String DIC_QUERY_BY_PRICEID = "queryDicByPriceId";
+	
+	/**
+	 * 通过id查询dic
+	 */
+	public static String DIC_FIND_BY_ID = "findDicById";
 	
 	/**
 	 * 通过code查询param

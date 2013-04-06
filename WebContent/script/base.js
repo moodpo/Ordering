@@ -135,17 +135,100 @@ $(document).ready(function(){
 		
 	});
 	
-	
-	
-	// ========== 订餐页面提交一行数据 ordering.jsp
-	$('a.submitPrice').click(function(){
-		
-	});
-	
-	// ========== 订餐页面取消一行数据 ordering.jsp
-	$('a.cancelPrice').click(function(){
-		
-	});
-	
-	
 });
+
+// ========== 选择饭菜数量
+function changeNum(index,obj){
+	$('#priceNum-'+index).val($(obj).val());
+}
+
+// ========== 订餐页面提交一行数据 ordering.jsp
+function submitPrice(index){
+	var dicName = "";
+	// 检查是否选择一份
+	var flag = false;
+	$('input[name="dic-'+index+'"]').each(function(num){
+		if($(this).attr('checked') == 'checked'){
+			$('#dicID-'+index).val($(this).val());
+			dicName = $(this).next().text();
+			flag = true;
+		}
+	});
+	if(!flag){
+		$('#tipModal').modal({
+		    backdrop:true,
+		    keyboard:true,
+		    show:true
+		});
+		return false;
+	}
+	
+	var priceName = $('#priceName-'+index).val();
+	var priceValue = $('#priceValue-'+index).val();
+	var priceNum = $('#priceNum-'+index).val();
+	var priceID = $('#priceID-'+index).val();
+	var dicID = $('#dicID-'+index).val();
+	// 异步提交选择的饭菜
+	var toUrl = PATH + '/content/secure/ordering!selectOrdering';
+	$.post(toUrl,{'price.id':priceID,'dic.id':dicID,'price.priceNum':priceNum},
+		function(data){
+			if(data.indexOf('success') > -1){
+				var submitIndex = data.split(':')[1];
+				var tr = '<tr>';
+				tr = tr + '<td>'+priceName+'</td>';
+				tr = tr + '<td>'+priceValue+'</td>';
+				tr = tr + '<td>'+dicName+'&nbsp;&nbsp;</td>';
+				tr = tr + '<td>'+priceNum+'</td>';
+				tr = tr + '<td> <a class="btn btn-mini btn-danger" onclick=cancelPrice("'+submitIndex+'",this)>取消</a> </td>';
+				$('#select-tbody').append(tr);
+			}else{
+				$('#tipModal .modal-body > p').html('未能提交订餐，发生未知错误请联系管理员！');
+				$('#tipModal').modal({
+				    backdrop:true,
+				    keyboard:true,
+				    show:true
+				});
+			}
+		},
+	'text');
+};
+
+// ========== 订餐页面取消一行数据 ordering.jsp
+var submitIndex = 1;
+var cancelRow; // 取消行
+var cancelIndex; // 取消索引
+function cancelPrice(index,obj){
+	cancelRow = obj;
+	cancelIndex = index;
+	// 弹出确认对话框
+	$('#commitModal').modal({
+	    backdrop:true,
+	    keyboard:true,
+	    show:true
+	});
+}
+
+function commitCancel(){
+	$('#commitModal').modal('hide');
+	doCancelPrice();
+}
+
+// ========== 执行取消选择操作
+function doCancelPrice(){
+	// 异步取消选择的饭菜
+	var toUrl = PATH + '/content/secure/ordering!cancelOrdering';
+	$.post(toUrl,{'index':cancelIndex},
+			function(data){
+				if(data == 'success'){
+					$(cancelRow).parent().parent().remove();
+				}else{
+					$('#tipModal .modal-body > p').html('未能取消订餐，发生未知错误请联系管理员！');
+					$('#tipModal').modal({
+					    backdrop:true,
+					    keyboard:true,
+					    show:true
+					});
+				}
+			},
+	'text');
+}

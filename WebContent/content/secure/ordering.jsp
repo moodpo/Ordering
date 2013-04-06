@@ -18,6 +18,8 @@
 </head>
 <body>
 	<s:set name="user" value="#session.current_user_obj" />
+	<!-- 初始化菜品列表 -->
+	<s:action name="ordering!todayOrdering" executeResult="true"/>
 	<div id="wrapper">
 		<!-- header =======================================================-->
 		<header id="page-header">
@@ -66,8 +68,6 @@
 					<div class="main-inner">
 						<div class="legend">菜品选择</div>
 						<!-- 菜品列表 -->
-						<!-- 初始化菜品列表 -->
-						<s:action name="ordering!todayOrdering" executeResult="true"/>
 						<table class="table table-striped table-bordered">
 							<thead>
 								<tr>
@@ -79,15 +79,22 @@
 								</tr>
 							</thead>
 							<tbody>
-								<s:iterator value="#request.today_ordering_list">
+								<s:iterator value="#request.today_ordering_list" status="itStatus">
 									<tr>
+										<s:hidden name="price.id" value="%{id}" id="priceID-%{#itStatus.count}"/>
+										<s:hidden name="price.priceName" value="%{priceName}" id="priceName-%{#itStatus.count}"/>
+										<s:hidden name="price.priceValue" value="%{priceValue}" id="priceValue-%{#itStatus.count}"/>
+										<s:hidden name="price.priceNum" value="1" id="priceNum-%{#itStatus.count}"/>
+										<s:hidden name="dic.id" id="dicID-%{#itStatus.count}"/>
 										<td><s:property value="priceName"/></td>
 										<td><s:property value="priceValue"/></td>
-										<td><s:radio list="dics" listKey="id" listValue="dicName" name="%{id}"/></td>
 										<td>
-											<s:select list="#request.num_list" name="priceNum" cssClass="span1"/>
+											<s:radio list="dics" listKey="id" listValue="dicName" name="dic-%{#itStatus.count}"/>
+										</td>
+										<td>
+											<s:select list="#request.num_list" value="1" cssClass="span1" name="price.priceNum" onchange="changeNum('%{#itStatus.count}',this)"/>
 	              						</td>
-										<td> <a class="btn btn-mini btn-success submitPrice">提交</a> </td>
+										<td> <a class="btn btn-mini btn-success" onclick="submitPrice('<s:property value="%{#itStatus.count}"/>')">提交</a> </td>
 									</tr>
 								</s:iterator>
 							</tbody>
@@ -104,22 +111,50 @@
 									<th width="50px">操作</th>
 								</tr>
 							</thead>
-							<tbody>
-								<s:iterator value="#request.selected_today_ordering_list">
+							<tbody id="select-tbody">
+								<s:iterator value="#session.selected_today_ordering_list" status="itStatus">
 									<tr>
-										<td><s:property value="priceName"/></td>
-										<td><s:property value="priceValue"/></td>
+										<td><s:property value="value.priceName"/></td>
+										<td><s:property value="value.priceValue"/></td>
 										<td>
-											<s:iterator value="dics">
-												<s:property value="dicName"/>&nbsp;&nbsp;	
+											<s:iterator value="value.dics">
+												<s:property value="dicName"/>&nbsp;&nbsp;
 											</s:iterator>
 										</td>
-										<td><s:property value="priceNum"/></td>
-										<td> <a class="btn btn-mini btn-success cancelPrice">取消</a> </td>
+										<td><s:property value="value.priceNum"/></td>
+										<td> <a class="btn btn-mini btn-danger" onclick="cancelPrice('<s:property value="key"/>',this)">取消</a> </td>
 									</tr>
 								</s:iterator>
 							</tbody>
 						</table>
+						
+						<!-- 弹出提示 -->
+						<div id="tipModal" class="modal hide">
+				        	<div class="modal-header">
+				            	<a class="close" data-dismiss="modal">×</a>
+				              	<h3>提示</h3>
+				            </div>
+				            <div class="modal-body">
+				              	<p>请在饭菜详细信息中至少选择一种再提交！</p>
+				            </div>
+				            <div class="modal-footer">
+				              	<a class="btn" data-dismiss="modal">关闭</a>
+				            </div>
+				    	</div>
+				    	<!-- 弹出确认 -->
+				    	<div id="commitModal" class="modal hide">
+				        	<div class="modal-header">
+				            	<a class="close" data-dismiss="modal">×</a>
+				              	<h3>确认</h3>
+				            </div>
+				            <div class="modal-body">
+				              	<p>确定取消此订餐？点击确认将删除此订餐，点击关闭不做任何处理。</p>
+				            </div>
+				            <div class="modal-footer">
+				              	<a class="btn" data-dismiss="modal">关闭</a>
+				              	<a class="btn btn-danger" onclick="commitCancel()">确认</a>
+				            </div>
+				    	</div>
 					</div>
 				</div>
 				<!-- 提示信息 -->

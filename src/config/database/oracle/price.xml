@@ -16,8 +16,13 @@
 	</resultMap>
 	
 	<!-- 通过state查询 -->
-	<select id="queryPriceByState" resultMap="PriceResultMap">
+	<select id="queryPriceByState" resultMap="PriceResultMap" parameterClass="Price">
 		select * from ORDERING_PRICE where PRICE_STATE = #priceState#
+	</select>
+	
+	<!-- 通过id查询 -->
+	<select id="findPriceById" resultMap="PriceResultMap" parameterClass="String">
+		select * from ORDERING_PRICE where PRICE_ID = #id#
 	</select>
 	
 </sqlMap>

@@ -1,12 +1,15 @@
 package com.moodpo.action.ordering;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 
 import com.moodpo.common.BaseAction;
+import com.moodpo.domain.Dic;
 import com.moodpo.domain.Param;
 import com.moodpo.domain.Price;
 import com.moodpo.service.ordering.IOrderingService;
@@ -32,6 +35,35 @@ public class OrderingAction extends BaseAction{
 	@Resource
 	IParamService paramServiceImpl;
 	
+	
+	private Price price;
+	private Dic dic;
+	private String index;
+	
+	public String getIndex() {
+		return index;
+	}
+
+	public void setIndex(String index) {
+		this.index = index;
+	}
+
+	public Dic getDic() {
+		return dic;
+	}
+
+	public void setDic(Dic dic) {
+		this.dic = dic;
+	}
+
+	public Price getPrice() {
+		return price;
+	}
+
+	public void setPrice(Price price) {
+		this.price = price;
+	}
+
 	/**
 	 * 今日订餐页
 	 * @return
@@ -67,13 +99,48 @@ public class OrderingAction extends BaseAction{
 	 * @return
 	 * @throws Exception
 	 */
-	public String selectTodayOrdering() throws Exception {
-		
-		
-		
+	public String selectOrdering() throws Exception {
+		logger.info("selectOrdering start.");
+		// 通过dic查询dic的详细内容 ，通过price id 查询详细内容
+		price = orderingServiceImpl.selectDetail(price, dic);
+		if(price == null){
+			response.getWriter().print(ERROR);
+			logger.info("selectOrdering end.");
+			return null;
+		}
+		// 检查之前是否已经选择
+		@SuppressWarnings("unchecked")
+		Map<Integer,Price> priceMap = (Map<Integer, Price>) session.get(OtherConstants.SELECTED_TODAY_ORDERING);
+		if(priceMap == null){
+			priceMap = new LinkedHashMap<Integer, Price>();
+		}
+		Integer current_index = (Integer)session.get(OtherConstants.CURRENT_INDEX);
+		if(current_index == null){
+			current_index = 0;
+		}
+		current_index = current_index + 1;
+		priceMap.put(current_index, price);
+		session.put(OtherConstants.SELECTED_TODAY_ORDERING, priceMap);
+		session.put(OtherConstants.CURRENT_INDEX,current_index);
+		response.getWriter().print(SUCCESS+":"+current_index);
+		logger.info("selectOrdering end.");
 		return null;
 	}
 	
-	
+	/**
+	 * 取消今日订餐
+	 * @return
+	 * @throws Exception
+	 */
+	public String cancelOrdering() throws Exception {
+		logger.info("cancelOrdering start. " + index);
+		@SuppressWarnings("unchecked")
+		Map<Integer,Price> priceMap = (Map<Integer, Price>) session.get(OtherConstants.SELECTED_TODAY_ORDERING);
+		priceMap.remove(Integer.parseInt(index));
+		session.put(OtherConstants.SELECTED_TODAY_ORDERING, priceMap);
+		response.getWriter().print(SUCCESS);
+		logger.info("cancelOrdering end.");
+		return null;
+	}
 	
 }

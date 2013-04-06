@@ -65,12 +65,7 @@ public class ResultConstants {
 	public static String ALTER_PWD_FAIL = "page.alertPwd.fail";
 	
 	/**
-	 * 初始化今日菜单成功
+	 * 提交临时菜品跳转
 	 */
-	public static String TODAY_ORDERING_SUCCESS = "today.ordering.success";
-	
-	/**
-	 * 初始化今日菜单失败
-	 */
-	public static String TODAY_ORDERING_FAIL = "today.ordering.fail";
+	public static String SELECTED_ORDERING_SUCCESS = "page.selected.ordering.success";
 }

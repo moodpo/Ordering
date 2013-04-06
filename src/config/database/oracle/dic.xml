@@ -18,4 +18,8 @@
 		select * from ORDERING_DIC where FK_PRICE_ID=#priceID# and DIC_STATE=#dicState#
 	</select>
 	
+	<!-- 通过id查询 -->
+	<select id="findDicById" parameterClass="String" resultMap="DicResultMap">
+		select * from ORDERING_DIC where DIC_ID=#id#
+	</select>
 </sqlMap>
