@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<typeAlias alias="Food" type="com.moodpo.domain.Food"/>
+
+	<resultMap class="Food" id="FoodResultMap">
+		<result property="id" column="FOOD_ID"/>
+		<result property="orderDetailID" column="FK_ORDER_DETAIL_ID"/>
+		<result property="dicID" column="FK_DIC_ID"/>
+		<result property="foodNum" column="FOOD_NUM"/>
+	</resultMap>
+	
+	<!-- 添加一条记录 -->
+	<insert id="addFood" parameterClass="food">
+		insert into ORDERING_FOOD(FOOD_ID,FK_ORDER_DETAIL_ID,FK_DIC_ID,FOOD_NUM)
+		values (xiaoxie_seq.nextval,#orderDetailID#,#dicID#,#foodNum#)
+	</insert>
+	
+</sqlMap>

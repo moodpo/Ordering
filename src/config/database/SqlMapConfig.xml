@@ -21,6 +21,12 @@
 	<sqlMap resource="config/database/oracle/price.xml"/>
 	<!-- Param -->
 	<sqlMap resource="config/database/oracle/param.xml"/>
+	<!-- Order -->
+	<sqlMap resource="config/database/oracle/order.xml"/>
+	<!-- Detail -->
+	<sqlMap resource="config/database/oracle/detail.xml"/>
+	<!-- Food -->
+	<sqlMap resource="config/database/oracle/food.xml"/>
 	
 </sqlMapConfig>
 

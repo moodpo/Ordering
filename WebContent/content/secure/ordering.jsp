@@ -67,6 +67,13 @@
 				<div class="span9 main-show">
 					<div class="main-inner">
 						<div class="legend">菜品选择</div>
+						<!-- 提示信息 -->
+						<s:if test="msg != null">
+							<div class="alert">
+							  <a class="close" data-dismiss="alert">×</a>
+							  <strong>警告！</strong> <s:property value="msg"/>
+							</div>
+						</s:if>
 						<!-- 菜品列表 -->
 						<table class="table table-striped table-bordered">
 							<thead>
@@ -86,7 +93,7 @@
 										<s:hidden name="price.priceValue" value="%{priceValue}" id="priceValue-%{#itStatus.count}"/>
 										<s:hidden name="price.priceNum" value="1" id="priceNum-%{#itStatus.count}"/>
 										<s:hidden name="dic.id" id="dicID-%{#itStatus.count}"/>
-										<td><s:property value="priceName"/></td>
+										<td><span class="label label-info"><s:property value="priceName"/></span></td>
 										<td><s:property value="priceValue"/></td>
 										<td>
 											<s:radio list="dics" listKey="id" listValue="dicName" name="dic-%{#itStatus.count}"/>
@@ -114,7 +121,7 @@
 							<tbody id="select-tbody">
 								<s:iterator value="#session.selected_today_ordering_list" status="itStatus">
 									<tr>
-										<td><s:property value="value.priceName"/></td>
+										<td><span class="label label-info"><s:property value="value.priceName"/></span></td>
 										<td><s:property value="value.priceValue"/></td>
 										<td>
 											<s:iterator value="value.dics">
@@ -148,13 +155,16 @@
 				              	<h3>确认</h3>
 				            </div>
 				            <div class="modal-body">
-				              	<p>确定取消此订餐？点击确认将删除此订餐，点击关闭不做任何处理。</p>
+				              	<p>确认取消此订餐？点击确认将删除此订餐！</p>
 				            </div>
 				            <div class="modal-footer">
 				              	<a class="btn" data-dismiss="modal">关闭</a>
 				              	<a class="btn btn-danger" onclick="commitCancel()">确认</a>
 				            </div>
 				    	</div>
+				    	<div class="form-actions main-btn">
+				            <a href="<%=path %>/content/secure/order!createOrder" class="btn btn-primary">生成订单</a>
+				        </div>
 					</div>
 				</div>
 				<!-- 提示信息 -->

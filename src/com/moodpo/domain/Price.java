@@ -27,6 +27,16 @@ public class Price extends Model {
 	
 	private List<Dic> dics;
 	
+	private String dicName;
+	
+	public String getDicName() {
+		return dicName;
+	}
+
+	public void setDicName(String dicName) {
+		this.dicName = dicName;
+	}
+
 	public List<Dic> getDics() {
 		return dics;
 	}

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	
+	<typeAlias alias="Order" type="com.moodpo.domain.Order"/>
+	
+	<resultMap class="Order" id="OrderResultMap">
+		<result property="id" column="ORDER_ID"/>
+		<result property="userID" column="FK_USER_ID"/>
+		<result property="orderTotle" column="ORDER_TOTLE"/>
+		<result property="orderDate" column="ORDER_DATE"/>
+		<result property="orderState" column="ORDER_STATE"/>
+		<result property="orderSeq" column="ORDER_SEQ"/>
+	</resultMap>
+	
+	<!-- 添加订单 -->
+	<insert id="addOrder" parameterClass="Order" >
+		<selectKey keyProperty="id" resultClass="String">
+		select xiaoxie_seq.nextval  as id from dual
+		</selectKey>
+		insert into ORDERING_ORDER(ORDER_ID,FK_USER_ID,ORDER_TOTLE,ORDER_DATE,ORDER_STATE,ORDER_SEQ)
+		values(#id#,#userID#,#orderTotle#,sysdate,#orderState#,#orderSeq#)
+	</insert>
+	
+	<!-- 通过id查询 -->
+	<select id="findOrderById" parameterClass="String" resultMap="OrderResultMap">
+		select * from ORDERING_ORDER where ORDER_ID=#id#
+	</select>
+	
+	<!-- 通过userID查询 -->
+	<select id="queryOrderByUId" parameterClass="java.util.HashMap" resultMap="OrderResultMap">
+		select ORDER_ID,FK_USER_ID,ORDER_TOTLE,ORDER_DATE,ORDER_STATE,ORDER_SEQ from (
+			select rownum tid,ORDER_ID,FK_USER_ID,ORDER_TOTLE,ORDER_DATE,ORDER_STATE,ORDER_SEQ from 
+			(select * from ORDERING_ORDER order by ORDER_DATE desc)
+		 	where rownum &lt; =#endRow# and fk_user_id =#current_user_id#
+		) where  tid &gt; #startRow# and fk_user_id =#current_user_id#
+	</select>
+	
+	<!-- 通过userID查询数量 -->
+	<select id="countOrderByUId" parameterClass="java.util.HashMap" resultClass="int">
+		select count(*) from ORDERING_ORDER where FK_USER_ID = #current_user_id#
+	</select>
+	
+</sqlMap>

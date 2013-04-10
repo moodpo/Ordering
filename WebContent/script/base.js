@@ -175,7 +175,7 @@ function submitPrice(index){
 			if(data.indexOf('success') > -1){
 				var submitIndex = data.split(':')[1];
 				var tr = '<tr>';
-				tr = tr + '<td>'+priceName+'</td>';
+				tr = tr + '<td><span class="label label-info">'+priceName+'</span></td>';
 				tr = tr + '<td>'+priceValue+'</td>';
 				tr = tr + '<td>'+dicName+'&nbsp;&nbsp;</td>';
 				tr = tr + '<td>'+priceNum+'</td>';

@@ -185,7 +185,9 @@ hr.soften {
 	margin: 0 5px 0 2px;
 }
 
-
+.main-show .main-btn{
+	text-align: center;
+}
 
 /* pagination css ============================== */
 .mypagination{

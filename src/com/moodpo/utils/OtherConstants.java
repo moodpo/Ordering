@@ -67,6 +67,15 @@ public class OtherConstants {
 	 */
 	public static String TODAY_ORDERING_STOP = " 今日订餐还未开始，请稍候！";
 	
+	/**
+	 * 没有可提交的订单。
+	 */
+	public static String SELECTED_ORDERING_NULL = "没有可提交的订单。";
+	
+	/**
+	 * 没有订单
+	 */
+	public static String HAVE_NO_ORDER = "还没有订单！";
 	
 	/***************************************************/
 	/**
@@ -110,6 +119,11 @@ public class OtherConstants {
 	public static String CURRENT_USER = "current_user_obj";
 	
 	/**
+	 * 已登录用户ID
+	 */
+	public static String CURRENT_USER_ID = "current_user_id";
+	
+	/**
 	 * 今日菜单列表
 	 */
 	public static String TODAY_ORDERING = "today_ordering_list";
@@ -134,4 +148,18 @@ public class OtherConstants {
 	 */
 	public static String CURRENT_INDEX = "current_index";
 	
+	/**
+	 * 订单列表
+	 */
+	public static String CURRENT_ORDER_LIST = "current_order_list";
+	
+	/**
+	 * 起始行数
+	 */
+	public static String START_ROW = "startRow";
+	
+	/**
+	 * 结束行数
+	 */
+	public static String END_ROW = "endRow";
 }

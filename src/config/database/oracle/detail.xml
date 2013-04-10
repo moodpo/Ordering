@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<typeAlias alias="Detail" type="com.moodpo.domain.Detail"/>
+	
+	<typeAlias alias="Order" type="com.moodpo.domain.Order"/>
+
+	<resultMap class="Detail" id="DetailResultMap">
+		<result property="id" column="ORDER_DETAIL_ID"/>
+		<result property="orderID" column="FK_ORDER_ID"/>
+		<result property="priceID" column="FK_PRICE_ID"/>
+		<result property="orderDetailNum" column="ORDER_DETAIL_NUM"/>
+		<result property="dicName" column="DIC_NAME"/>
+	</resultMap>
+	
+	<!-- 添加一条记录 -->
+	<insert id="addDetail" parameterClass="Detail">
+		<selectKey keyProperty="id" resultClass="String">
+		select xiaoxie_seq.nextval  as id from dual
+		</selectKey>
+		insert into ORDERING_ORDER_DETAIL(ORDER_DETAIL_ID,FK_ORDER_ID,FK_PRICE_ID,ORDER_DETAIL_NUM)
+		values(#id#,#orderID#,#priceID#,#orderDetailNum#)
+	</insert>
+	
+	<!-- 通过order id 查询 -->
+	<select id="queryDetailByOrderId" parameterClass="Order" resultMap="DetailResultMap">
+		select * from ORDERING_ORDER_DETAIL d 
+		inner join (select * from  ORDERING_FOOD fo 
+		inner join ORDERING_DIC dic on fo.fk_dic_id=dic.dic_id) f
+		on d.order_detail_id=f.fk_order_detail_id  where fk_order_id=#id#
+	</select>
+	
+	
+	
+</sqlMap>

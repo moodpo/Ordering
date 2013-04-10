@@ -65,7 +65,17 @@ public class ResultConstants {
 	public static String ALTER_PWD_FAIL = "page.alertPwd.fail";
 	
 	/**
-	 * 提交临时菜品跳转
+	 * 用户选择菜品为空
 	 */
-	public static String SELECTED_ORDERING_SUCCESS = "page.selected.ordering.success";
+	public static String SELECTED_ORDERING_NULL = "page.selected.ordering.null";
+	
+	/**
+	 * 生成订单成功
+	 */
+	public static String CREATE_ORDER_SUCCESS = "page.create.order.success";
+	
+	/**
+	 * 生成订单失败
+	 */
+	public static String CREATE_ORDER_FAIL = "page.create.order.fail";
 }

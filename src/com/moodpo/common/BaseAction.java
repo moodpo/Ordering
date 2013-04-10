@@ -9,6 +9,7 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.interceptor.SessionAware;
 
+import com.moodpo.utils.Pagination;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class BaseAction extends ActionSupport implements SessionAware , ServletRequestAware , ServletResponseAware{
@@ -34,7 +35,7 @@ public class BaseAction extends ActionSupport implements SessionAware , ServletR
 	}
 	
 	/**
-	 * 页面提示信息
+	 * 与字段无关时使用的页面提示信息
 	 */
 	private String msg;
 
@@ -44,6 +45,19 @@ public class BaseAction extends ActionSupport implements SessionAware , ServletR
 
 	public void setMsg(String msg) {
 		this.msg = msg;
+	}
+	
+	/**
+	 * 分页信息
+	 */
+	private Pagination pagination;
+
+	public Pagination getPagination() {
+		return pagination;
+	}
+
+	public void setPagination(Pagination pagination) {
+		this.pagination = pagination;
 	}
 	
 }

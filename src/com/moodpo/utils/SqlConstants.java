@@ -67,4 +67,41 @@ public class SqlConstants {
 	 * 通过code查询param
 	 */
 	public static String  PARAM_FIND_BY_CODE ="findParamByCode";
+	
+	/**
+	 * 添加order
+	 */
+	public static String ORDER_ADD = "addOrder";
+	
+	/**
+	 * 通过id查询order
+	 */
+	public static String ORDER_FIND_BY_ID = "findOrderById";
+	
+	/**
+	 * 通过uid查询Order分页
+	 */
+	public static String ORDER_QUERY_BY_UID = "queryOrderByUId";
+	
+	/**
+	 * 通过uid查询总条数
+	 */
+	public static String ORDER_COUNT_BY_UID = "countOrderByUId";
+	
+	/**
+	 * 添加detail
+	 */
+	public static String DETAIL_ADD = "addDetail";
+	
+	/**
+	 * 通过order id查询detail
+	 */
+	public static String DETAIL_QUERY_BY_ORDERID = "queryDetailByOrderId";
+	
+	/**
+	 * 添加food
+	 */
+	public static String FOOD_ADD = "addFood";
+	
+	
 }
