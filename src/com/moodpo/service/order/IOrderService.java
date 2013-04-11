@@ -36,4 +36,14 @@ public interface IOrderService {
 	 * @throws ServiceException
 	 */
 	public String queryOrder(Order order, Pagination pagination, HttpServletRequest request) throws ServiceException;
+	
+	/**
+	 * 取消订单
+	 * 1.删除订单
+	 * 2.删除详细订单
+	 * @param order
+	 * @return
+	 * @throws ServiceException
+	 */
+	public String cancelOrder(Order order) throws ServiceException;
 }

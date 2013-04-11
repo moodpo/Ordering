@@ -65,8 +65,14 @@
 				<!-- 订单列表及详细订单 -->
 				<div class="span9 main-show">
 					<div class="main-inner">
-						<s:form action="order!queryOrder" method="post" id="order-form">
 						<div class="legend">订单列表</div>
+						<!-- 提示信息 -->
+						<s:if test="msg != null">
+							<div class="alert">
+							  <a class="close" data-dismiss="alert">×</a>
+							  <strong>警告！</strong> <s:property value="msg"/>
+							</div>
+						</s:if>
 						<!-- 订单列表 -->
 						<table class="table table-striped table-bordered">
 							<thead>
@@ -103,7 +109,10 @@
 										</td>
 										<td width="70px"> <!-- <a class="btn btn-mini btn-success">付款</a> --> 
 											<s:if test="orderState == '01'">
-												<a class="btn btn-mini btn-danger">取消订单</a>
+												<s:form action="order!cancelOrder" method="post" style="margin:0;padding:0;">
+													<s:hidden value="%{id}" name="order.id"></s:hidden>
+													<a class="btn btn-mini btn-danger cancelOrder">取消订单</a>
+												</s:form>
 											</s:if>
 										</td>
 									</tr>
@@ -111,6 +120,7 @@
 							</tbody>
 						</table>
 						
+						<s:form action="order!queryOrder" method="post" id="queryOrder-form">
 						<!-- pagination -->
 						<div class="well mypagination">
 							<s:if test="#request.pageInfo != null">

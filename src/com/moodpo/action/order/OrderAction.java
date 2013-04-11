@@ -67,7 +67,7 @@ public class OrderAction extends BaseAction{
 	}
 	
 	/**
-	 * 分页查询某人的订单 按时间排序
+	 * 分页查询某人的订单 按时间排序 用户查询
 	 * @return
 	 * @throws Exception
 	 */
@@ -85,5 +85,23 @@ public class OrderAction extends BaseAction{
 		}
 		logger.info("queryOrder end.");
 		return ResultConstants.QUERY_ORDER_LIST;
+	}
+	
+	/**
+	 * 取消订单
+	 * @return
+	 * @throws Exception
+	 */
+	public String cancelOrder() throws Exception {
+		logger.info("cancelOrder() start.");
+		// 调用服务层删除记录
+		String res = orderServiceImpl.cancelOrder(order);
+		if(res != null){
+			this.setMsg(res);
+			logger.info("cancelOrder() end.");
+			return ResultConstants.CANCEL_ORDER_FAIL;
+		}
+		logger.info("cancelOrder() end.");
+		return ResultConstants.CANCEL_ORDER_SUCCESS;
 	}
 }

@@ -65,6 +65,10 @@
 			<result name="page.create.order.success" type="redirect">/content/secure/order.jsp</result>
 			<!-- 分页查询订单 -->
 			<result name="page.query.page.list">/content/secure/pageOrder.jsp</result>
+			<!-- 取消订单成功 -->
+			<result name="page.cancel.order.success" type="redirect">/content/secure/order.jsp</result>
+			<!-- 取消订单失败 -->
+			<result name="page.cancel.order.fail">/content/secure/order.jsp</result>
 		</action>
 	</package>
 	

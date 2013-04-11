@@ -44,4 +44,9 @@
 		select count(*) from ORDERING_ORDER where FK_USER_ID = #current_user_id#
 	</select>
 	
+	<!-- 通过id删除order -->
+	<delete id="deleteOrderById" parameterClass="order">
+		delete from ORDERING_ORDER where ORDER_ID=#id# and ORDER_STATE='01'
+	</delete>
+	
 </sqlMap>

@@ -89,6 +89,11 @@ public class SqlConstants {
 	public static String ORDER_COUNT_BY_UID = "countOrderByUId";
 	
 	/**
+	 * 通过id删除order
+	 */
+	public static String ORDER_DELETE_BY_ID = "deleteOrderById";
+	
+	/**
 	 * 添加detail
 	 */
 	public static String DETAIL_ADD = "addDetail";

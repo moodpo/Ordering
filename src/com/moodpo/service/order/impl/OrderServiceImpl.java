@@ -84,7 +84,7 @@ public class OrderServiceImpl implements IOrderService{
 				detail.setPriceID(price.getId());
 				detail.setOrderDetailNum(price.getPriceNum());
 				// 添加订单详细
-				String detailID = orderDaoImpl.add(detail, SqlConstants.DETAIL_ADD);
+				String detailID = detailDaoImpl.add(detail, SqlConstants.DETAIL_ADD);
 				Food food = new Food();
 				List<Dic> dics = price.getDics();
 				for (Dic dic : dics) {
@@ -153,6 +153,17 @@ public class OrderServiceImpl implements IOrderService{
 		}
 		request.setAttribute(OtherConstants.CURRENT_ORDER_LIST, orders);
 		request.setAttribute(OtherConstants.PAGE_INFO, pagination);
+		return null;
+	}
+
+	public String cancelOrder(Order order) throws ServiceException {
+		try {
+			orderDaoImpl.delete(order, SqlConstants.ORDER_DELETE_BY_ID);
+			// 不需要删除 订单详细和订餐关系表 会级联删除
+		} catch (DBException e) {
+			logger.error(OtherConstants.DB_ERROR,e);
+			return OtherConstants.DB_ERROR;
+		}
 		return null;
 	}
 	

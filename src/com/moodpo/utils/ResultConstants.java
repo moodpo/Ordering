@@ -83,4 +83,14 @@ public class ResultConstants {
 	 * 分页查询订单
 	 */
 	public static String QUERY_ORDER_LIST = "page.query.page.list";
+	
+	/**
+	 * 取消订单成功
+	 */
+	public static String CANCEL_ORDER_SUCCESS = "page.cancel.order.success";
+	
+	/**
+	 * 取消订单失败
+	 */
+	public static String CANCEL_ORDER_FAIL = "page.cancel.order.fail";
 }

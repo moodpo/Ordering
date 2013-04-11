@@ -140,25 +140,25 @@ $(document).ready(function(){
 	$('.page-first').click(function(){
 		// 首页
 		$('.currentPage').val('1');
-		$('form:eq(0)').submit();
+		$('#queryOrder-form').submit();
 	});
 	
 	$('.page-prev').click(function(){
 		// 上一页
 		$('.currentPage').val($('.currentPage').val()*1 - 1);
-		$('form:eq(0)').submit();
+		$('#queryOrder-form').submit();
 	});
 	
 	$('.page-next').click(function(){
 		// 下一页
 		$('.currentPage').val($('.currentPage').val()*1 + 1);
-		$('form:eq(0)').submit();
+		$('#queryOrder-form').submit();
 	});
 	
 	$('.page-last').click(function(){
 		// 尾页
 		$('.currentPage').val($('.pageCount').val());
-		$('form:eq(0)').submit();
+		$('#queryOrder-form').submit();
 	});
 	
 	$('.currentPage').keydown(function(event){
@@ -181,14 +181,19 @@ $(document).ready(function(){
 				});
 				return false;
 			} else { // 第几页
-				$('form:eq(0)').submit();
+				$('#queryOrder-form').submit();
 			}
 		}
 	});
 	
 	$('.page-size').change(function(){
 		// 每页条数
-		$('form:eq(0)').submit();
+		$('#queryOrder-form').submit();
+	});
+	
+	// ================== 取消订单
+	$('.cancelOrder').click(function(){
+		$(this).parent().submit();
 	});
 	
 });
