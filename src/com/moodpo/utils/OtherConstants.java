@@ -162,4 +162,10 @@ public class OtherConstants {
 	 * 结束行数
 	 */
 	public static String END_ROW = "endRow";
+	
+	/**
+	 * 分页信息
+	 */
+	public static String PAGE_INFO = "pageInfo";
+	
 }

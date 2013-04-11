@@ -6,6 +6,7 @@ $(document).ready(function(){
 	var mainRex = /^\w+$/;
 	var cnNameRex = /^[\u4e00-\u9fa5]+$/;
 	var pwdRex = /^\w{3,12}$/;
+	var numRex = /^[0-9]*$/;
 	
 	// ========== 警告条关闭事件 login/sign/findPwd.jsp
 	$('.alert>a.close').click(function(){
@@ -135,6 +136,61 @@ $(document).ready(function(){
 		
 	});
 	
+	// =================== 分页事件
+	$('.page-first').click(function(){
+		// 首页
+		$('.currentPage').val('1');
+		$('form:eq(0)').submit();
+	});
+	
+	$('.page-prev').click(function(){
+		// 上一页
+		$('.currentPage').val($('.currentPage').val()*1 - 1);
+		$('form:eq(0)').submit();
+	});
+	
+	$('.page-next').click(function(){
+		// 下一页
+		$('.currentPage').val($('.currentPage').val()*1 + 1);
+		$('form:eq(0)').submit();
+	});
+	
+	$('.page-last').click(function(){
+		// 尾页
+		$('.currentPage').val($('.pageCount').val());
+		$('form:eq(0)').submit();
+	});
+	
+	$('.currentPage').keydown(function(event){
+		if(event.keyCode == 13){
+			var cp = $.trim($(this).val());
+			if(cp == '' || !numRex.test(cp)){
+				$('#tipModal .modal-body > p').html('请输入正确的页数！');
+				$('#tipModal').modal({
+				    backdrop:true,
+				    keyboard:true,
+				    show:true
+				});
+				return false;
+			} else if(cp <= 0 || cp > $('.pageCount').val()){
+				$('#tipModal .modal-body > p').html('请输入1-'+$('.pageCount').val()+'之间的数字！');
+				$('#tipModal').modal({
+				    backdrop:true,
+				    keyboard:true,
+				    show:true
+				});
+				return false;
+			} else { // 第几页
+				$('form:eq(0)').submit();
+			}
+		}
+	});
+	
+	$('.page-size').change(function(){
+		// 每页条数
+		$('form:eq(0)').submit();
+	});
+	
 });
 
 // ========== 选择饭菜数量
@@ -155,6 +211,7 @@ function submitPrice(index){
 		}
 	});
 	if(!flag){
+		$('#tipModal .modal-body > p').html('请在饭菜详细信息中至少选择一种再提交！');
 		$('#tipModal').modal({
 		    backdrop:true,
 		    keyboard:true,
@@ -220,6 +277,7 @@ function doCancelPrice(){
 	$.post(toUrl,{'index':cancelIndex},
 			function(data){
 				if(data == 'success'){
+					$(cancelRow).parent().parent().fadeIn();
 					$(cancelRow).parent().parent().remove();
 				}else{
 					$('#tipModal .modal-body > p').html('未能取消订餐，发生未知错误请联系管理员！');

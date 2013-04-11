@@ -35,8 +35,8 @@
 		select ORDER_ID,FK_USER_ID,ORDER_TOTLE,ORDER_DATE,ORDER_STATE,ORDER_SEQ from (
 			select rownum tid,ORDER_ID,FK_USER_ID,ORDER_TOTLE,ORDER_DATE,ORDER_STATE,ORDER_SEQ from 
 			(select * from ORDERING_ORDER order by ORDER_DATE desc)
-		 	where rownum &lt; =#endRow# and fk_user_id =#current_user_id#
-		) where  tid &gt; #startRow# and fk_user_id =#current_user_id#
+		 	where rownum &lt;= #endRow# and fk_user_id =#current_user_id#
+		) where  tid &gt;= #startRow# and fk_user_id =#current_user_id#
 	</select>
 	
 	<!-- 通过userID查询数量 -->

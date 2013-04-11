@@ -208,6 +208,12 @@ hr.soften {
 	line-height: 24px;
 }
 
+.mypagination ul li.page-disable{
+	color: #ccc;
+	cursor: pointer;
+}
+	
+	
 .mypagination li a{
 	float:left;
 	line-height: 24px;
@@ -241,5 +247,4 @@ hr.soften {
 	height: 24px;
 	line-height: 24px;
 }
-
 

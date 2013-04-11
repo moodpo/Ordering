@@ -78,4 +78,9 @@ public class ResultConstants {
 	 * 生成订单失败
 	 */
 	public static String CREATE_ORDER_FAIL = "page.create.order.fail";
+	
+	/**
+	 * 分页查询订单
+	 */
+	public static String QUERY_ORDER_LIST = "page.query.page.list";
 }

@@ -152,6 +152,7 @@ public class OrderServiceImpl implements IOrderService{
 			return OtherConstants.DB_ERROR;
 		}
 		request.setAttribute(OtherConstants.CURRENT_ORDER_LIST, orders);
+		request.setAttribute(OtherConstants.PAGE_INFO, pagination);
 		return null;
 	}
 	

@@ -79,10 +79,11 @@ public class OrderAction extends BaseAction{
 		// 调用服务查询某人的所有订单
 		String res = orderServiceImpl.queryOrder(order, this.getPagination(), request);
 		if(res != null){
+			this.setMsg(res);
 			logger.info("queryOrder end.");
 			return res;
 		}
 		logger.info("queryOrder end.");
-		return res;
+		return ResultConstants.QUERY_ORDER_LIST;
 	}
 }

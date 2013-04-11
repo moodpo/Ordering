@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>订餐系统 - 订餐</title>
+<title>订餐系统 - 订单</title>
 <link rel="shortcut icon" href="<%=path %>/favicon.ico" />
 <link rel="stylesheet" href="<%=path %>/common/bootstrap/css/bootstrap.min.css" />
 <link rel="stylesheet" href="<%=path %>/style/css/base.css" />
@@ -18,8 +18,6 @@
 </head>
 <body>
 	<s:set name="user" value="#session.current_user_obj" />
-	<!-- 初始化菜品列表 -->
-	<s:action name="ordering!todayOrdering" executeResult="true"/>
 	<div id="wrapper">
 		<!-- header =======================================================-->
 		<header id="page-header">
@@ -30,8 +28,8 @@
 						<ul class="nav">
 							<li><a href="<%=path %>">首页</a></li>
 							<li></li>
-							<li class="active"><a href="<%=path %>/content/secure/ordering.jsp">订餐</a></li>
-							<li><a href="<%=path %>/content/secure/order.jsp">订单</a></li>
+							<li><a href="<%=path %>/content/secure/ordering.jsp">订餐</a></li>
+							<li class="active"><a href="<%=path %>/content/secure/order.jsp">订单</a></li>
 							<s:if test="#user.auth > 1">
 								<li><a href="<%=path %>/content/manage/dishes.jsp">菜品管理</a></li>
 								<li><a href="<%=path %>/content/manage/ordering.jsp">订餐管理</a></li>
@@ -63,78 +61,90 @@
 		<!-- container =======================================================-->
 		<div class="container" id="page-content">
 			<div class="row">
-				<!-- 菜品列表 -->
+				<!-- 订单列表及详细订单 -->
 				<div class="span9 main-show">
 					<div class="main-inner">
-						<div class="legend">菜品选择</div>
-						<!-- 提示信息 -->
-						<s:if test="msg != null">
-							<div class="alert">
-							  <a class="close" data-dismiss="alert">×</a>
-							  <strong>警告！</strong> <s:property value="msg"/>
-							</div>
-						</s:if>
-						<!-- 菜品列表 -->
+						<s:form action="order!queryOrder" method="post" id="order-form">
+						<div class="legend">订单列表</div>
+						<!-- 订单列表 -->
 						<table class="table table-striped table-bordered">
 							<thead>
 								<tr>
-									<th width="100px">类型</th>
-									<th width="50px">单价(元)</th>
-									<th>饭菜详细信息</th>
-									<th width="50px">份数</th>
-									<th width="50px">操作</th>
+									<th width="40px">用户名</th>
+									<th width="50px">金额(元)</th>
+									<th width="80px">时间</th>
+									<th width="50px">状态</th>
+									<th>详细信息</th>
+									<th width="70px">操作</th>
 								</tr>
 							</thead>
 							<tbody>
-								<s:iterator value="#request.today_ordering_list" status="itStatus">
+								<s:iterator value="#request.current_order_list" status="itStatus">
 									<tr>
-										<s:hidden name="price.id" value="%{id}" id="priceID-%{#itStatus.count}"/>
-										<s:hidden name="price.priceName" value="%{priceName}" id="priceName-%{#itStatus.count}"/>
-										<s:hidden name="price.priceValue" value="%{priceValue}" id="priceValue-%{#itStatus.count}"/>
-										<s:hidden name="price.priceNum" value="1" id="priceNum-%{#itStatus.count}"/>
-										<s:hidden name="dic.id" id="dicID-%{#itStatus.count}"/>
-										<td><span class="label label-info"><s:property value="priceName"/></span></td>
-										<td><s:property value="priceValue"/></td>
-										<td>
-											<s:radio list="dics" listKey="id" listValue="dicName" name="dic-%{#itStatus.count}"/>
+										<td width="40px"><s:property value="#user.loginName"/></td>
+										<td><code><s:property value="orderTotle"/></code></td>
+										<td width="80px"><s:property value="orderDate"/></td>
+										<td width="50px">
+											<s:if test="orderState == '01'">
+												未结帐
+											</s:if>
+											<s:if test="orderState == '00'">
+												已结帐
+											</s:if>
 										</td>
 										<td>
-											<s:select list="#request.num_list" value="1" cssClass="span1" name="price.priceNum" onchange="changeNum('%{#itStatus.count}',this)"/>
-	              						</td>
-										<td> <a class="btn btn-mini btn-success" onclick="submitPrice('<s:property value="%{#itStatus.count}"/>')">提交</a> </td>
-									</tr>
-								</s:iterator>
-							</tbody>
-						</table>
-						
-						<div class="legend">已选菜品</div>
-						<table class="table table-striped table-bordered">
-							<thead>
-								<tr>
-									<th width="100px">类型</th>
-									<th width="50px">单价(元)</th>
-									<th>饭菜详细信息</th>
-									<th width="50px">份数</th>
-									<th width="50px">操作</th>
-								</tr>
-							</thead>
-							<tbody id="select-tbody">
-								<s:iterator value="#session.selected_today_ordering_list" status="itStatus">
-									<tr>
-										<td><span class="label label-info"><s:property value="value.priceName"/></span></td>
-										<td><s:property value="value.priceValue"/></td>
-										<td>
-											<s:iterator value="value.dics">
-												<s:property value="dicName"/>&nbsp;&nbsp;
+											<s:iterator value="details">
+											    <div style="padding: 1px; line-height: 20px; font-size: 12px;">
+												    <code><s:property value="orderDetailNum"/></code> 份 <code><s:property value="price.priceValue"/></code> 元
+													<s:property value="price.priceName"/>（<s:property value="price.dicName"/>）; 
+												</div>
 											</s:iterator>
 										</td>
-										<td><s:property value="value.priceNum"/></td>
-										<td> <a class="btn btn-mini btn-danger" onclick="cancelPrice('<s:property value="key"/>',this)">取消</a> </td>
+										<td width="70px"> <!-- <a class="btn btn-mini btn-success">付款</a> --> <a class="btn btn-mini btn-danger">取消订单</a> </td>
 									</tr>
 								</s:iterator>
 							</tbody>
 						</table>
 						
+						<!-- pagination -->
+						<div class="well mypagination">
+							<s:if test="#request.pageInfo != null">
+								<s:push value="#request.pageInfo">
+								<s:hidden value="%{pageCount}" cssClass="pageCount"></s:hidden>
+						    	<ul>
+						    		<s:if test="currentPage > 1">
+						    			<li class="page-first"><a href="javascript:void(0)">首页</a></li>
+						    			<li class="page-prev"><a href="javascript:void(0)">上一页</a></li>
+						    		</s:if>
+						    		<s:else>
+						    			<li class="page-disable">首页</li>
+						    			<li class="page-disable">上一页</li>
+						    		</s:else>
+						    		<li>
+						    			<span> 第 </span> <s:textfield cssClass="small-span currentPage" name="pagination.currentPage" value="%{currentPage}"/> <span> 页 </span>
+						    		</li>
+						    		<s:if test="currentPage < pageCount">
+						    			<li class="page-next"><a href="javascript:void(0)">下一页</a></li>
+						    			<li class="page-last"><a href="javascript:void(0)">尾页</a></li>
+						    		</s:if>
+						    		<s:else>
+						    			<li class="page-disable">下一页</li>
+						    			<li class="page-disable">尾页</li>
+						    		</s:else>
+						    		<li></li>
+						    		<li>
+						    			<span> 每页显示 </span>
+						    			<s:select list="{'5','10','20','50'}" name="pagination.pageSize" cssClass="span1 page-size" value="%{pageSize}"/>
+						    			<span> 条 </span>
+						    		</li>
+						    	</ul>
+					    		<div class="mypageinfo">第 <s:property value="currentPage"/>页 <s:property value="startRow"/>
+					    		 - <s:property value="endRow"/>条, 共 <s:property value="pageCount"/>页 <s:property value="count"/>条数据</div>
+					    		</s:push>
+					    	</s:if>
+						</div>
+						<!-- /pagination -->
+						</s:form>
 						<!-- 弹出提示 -->
 						<div id="tipModal" class="modal hide">
 				        	<div class="modal-header">
@@ -148,29 +158,12 @@
 				              	<a class="btn" data-dismiss="modal">关闭</a>
 				            </div>
 				    	</div>
-				    	<!-- 弹出确认 -->
-				    	<div id="commitModal" class="modal hide">
-				        	<div class="modal-header">
-				            	<a class="close" data-dismiss="modal">×</a>
-				              	<h3>确认</h3>
-				            </div>
-				            <div class="modal-body">
-				              	<p>确认取消此订餐？点击确认将删除此订餐！</p>
-				            </div>
-				            <div class="modal-footer">
-				              	<a class="btn" data-dismiss="modal">关闭</a>
-				              	<a class="btn btn-danger" onclick="commitCancel()">确认</a>
-				            </div>
-				    	</div>
-				    	<div class="form-actions main-btn">
-				            <a href="<%=path %>/content/secure/order!createOrder" class="btn btn-primary">生成订单</a>
-				        </div>
 					</div>
 				</div>
 				<!-- 提示信息 -->
 				<div class="span3">
 					<div class="well notify-info">
-						<p><s:property value="#request.today_ordering_info"/></p>
+						<p></p>
 					</div>
 				</div>
 			</div>

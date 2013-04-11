@@ -65,6 +65,7 @@
 				<!-- 订单列表及详细订单 -->
 				<div class="span9 main-show">
 					<div class="main-inner">
+						<s:form action="order!queryOrder" method="post" id="order-form">
 						<div class="legend">订单列表</div>
 						<!-- 订单列表 -->
 						<table class="table table-striped table-bordered">
@@ -100,35 +101,68 @@
 												</div>
 											</s:iterator>
 										</td>
-										<td width="70px"> <!-- <a class="btn btn-mini btn-success">付款</a> --> <a class="btn btn-mini btn-danger">取消订单</a> </td>
+										<td width="70px"> <!-- <a class="btn btn-mini btn-success">付款</a> --> 
+											<s:if test="orderState == '01'">
+												<a class="btn btn-mini btn-danger">取消订单</a>
+											</s:if>
+										</td>
 									</tr>
 								</s:iterator>
 							</tbody>
 						</table>
+						
 						<!-- pagination -->
 						<div class="well mypagination">
-					    	<ul>
-					    		<li class="page-first"><a href="#">首页</a></li>
-					    		<li class="page-prev"><a href="#">上一页</a></li>
-					    		<li>
-					    			<span> 第 </span> <input type="text" class="small-span" value="1"> <span> 页 </span>
-					    		</li>
-					    		<li class="page-next"><a href="#">下一页</a></li>
-					    		<li class="page-last"><a href="#">尾页</a></li>
-					    		<li></li>
-					    		<li>
-					    			<span> 每页显示 </span>
-					    			<select class="span1">
-					    				<option>10</option>
-					    				<option>20</option>
-					    				<option>50</option>
-					    			</select>
-					    			<span> 条 </span>
-					    		</li>
-					    	</ul>
-					    	<div class="mypageinfo">第 1页 1 - 8条, 共 1页 8条数据</div>
+							<s:if test="#request.pageInfo != null">
+								<s:push value="#request.pageInfo">
+								<s:hidden value="pageCount" cssClass="pageCount"></s:hidden>
+						    	<ul>
+						    		<s:if test="currentPage > 1">
+						    			<li class="page-first"><a href="javascript:void(0)">首页</a></li>
+						    			<li class="page-prev"><a href="javascript:void(0)">上一页</a></li>
+						    		</s:if>
+						    		<s:else>
+						    			<li class="page-disable">首页</li>
+						    			<li class="page-disable">上一页</li>
+						    		</s:else>
+						    		<li>
+						    			<span> 第 </span> <s:textfield cssClass="small-span currentPage" name="pagination.currentPage" value="%{currentPage}"/> <span> 页 </span>
+						    		</li>
+						    		<s:if test="currentPage < pageCount">
+						    			<li class="page-next"><a href="javascript:void(0)">下一页</a></li>
+						    			<li class="page-last"><a href="javascript:void(0)">尾页</a></li>
+						    		</s:if>
+						    		<s:else>
+						    			<li class="page-disable">下一页</li>
+						    			<li class="page-disable">尾页</li>
+						    		</s:else>
+						    		<li></li>
+						    		<li>
+						    			<span> 每页显示 </span>
+						    			<s:select list="{'5','10','20','50'}" name="pagination.pageSize" cssClass="span1 page-size" value="%{pageSize}"/>
+						    			<span> 条 </span>
+						    		</li>
+						    	</ul>
+					    		<div class="mypageinfo">第 <s:property value="currentPage"/>页 <s:property value="startRow"/>
+					    		 - <s:property value="endRow"/>条, 共 <s:property value="pageCount"/>页 <s:property value="count"/>条数据</div>
+					    		</s:push>
+					    	</s:if>
 						</div>
 						<!-- /pagination -->
+						</s:form>
+						<!-- 弹出提示 -->
+						<div id="tipModal" class="modal hide">
+				        	<div class="modal-header">
+				            	<a class="close" data-dismiss="modal">×</a>
+				              	<h3>提示</h3>
+				            </div>
+				            <div class="modal-body">
+				              	<p></p>
+				            </div>
+				            <div class="modal-footer">
+				              	<a class="btn" data-dismiss="modal">关闭</a>
+				            </div>
+				    	</div>
 					</div>
 				</div>
 				<!-- 提示信息 -->

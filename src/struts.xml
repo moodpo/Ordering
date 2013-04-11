@@ -63,6 +63,8 @@
 			<result name="page.create.order.fail">/content/secure/ordering.jsp</result>
 			<!-- 生成订单成功 -->
 			<result name="page.create.order.success" type="redirect">/content/secure/order.jsp</result>
+			<!-- 分页查询订单 -->
+			<result name="page.query.page.list">/content/secure/pageOrder.jsp</result>
 		</action>
 	</package>
 	
