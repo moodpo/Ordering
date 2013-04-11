@@ -120,12 +120,12 @@
 							</tbody>
 						</table>
 						
-						<s:form action="order!queryOrder" method="post" id="queryOrder-form">
+						<s:form action="order!queryOrder" method="post" id="page-form1">
 						<!-- pagination -->
 						<div class="well mypagination">
 							<s:if test="#request.pageInfo != null">
 								<s:push value="#request.pageInfo">
-								<s:hidden value="pageCount" cssClass="pageCount"></s:hidden>
+								<s:hidden value="%{pageCount}" cssClass="pageCount"></s:hidden>
 						    	<ul>
 						    		<s:if test="currentPage > 1">
 						    			<li class="page-first"><a href="javascript:void(0)">首页</a></li>
@@ -154,7 +154,7 @@
 						    		</li>
 						    	</ul>
 					    		<div class="mypageinfo">第 <s:property value="currentPage"/>页 <s:property value="startRow"/>
-					    		 - <s:property value="endRow"/>条, 共 <s:property value="pageCount"/>页 <s:property value="count"/>条数据</div>
+					    		 - <s:property value="relEndRow"/>条, 共 <s:property value="pageCount"/>页 <s:property value="count"/>条数据</div>
 					    		</s:push>
 					    	</s:if>
 						</div>

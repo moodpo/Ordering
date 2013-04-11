@@ -80,27 +80,16 @@ public class Pagination {
 		return this.getCurrentPage()*this.getPageSize();
 	}
 	
-	
-	public String toString() {
-		StringBuffer sb = new StringBuffer("");
-		int currentPage = this.getCurrentPage();
-		
-		sb.append("<div class='well mypagination'>");
-		sb.append("<ul><li class='page-first'>");
-		if(currentPage > 1){ // 当前不是首页
-			sb.append("<a href='#' onclick='toPage('first','pagination-form')'>首页</a>");
-		} else { // 当前是首页
-			
+	/**
+	 * 实际的结束行数
+	 * @return 7 1-5 6-7
+	 */
+	public int getRelEndRow(){
+		if(this.getCurrentPage() == this.getPageCount()){
+			return this.getStartRow() + this.getCount()%this.getPageSize() -1;
 		}
+		return this.getEndRow();
 		
-		sb.append("</li>");
-		
-		
-		
-		
-		
-		
-		return null;
 	}
 	
 }

@@ -137,31 +137,31 @@ $(document).ready(function(){
 	});
 	
 	// =================== 分页事件
-	$('.page-first').click(function(){
+	$('#page-form1 .page-first').click(function(){
 		// 首页
-		$('.currentPage').val('1');
-		$('#queryOrder-form').submit();
+		$('#page-form1 .currentPage').val('1');
+		$('#page-form1').submit();
 	});
 	
-	$('.page-prev').click(function(){
+	$('#page-form1 .page-prev').click(function(){
 		// 上一页
-		$('.currentPage').val($('.currentPage').val()*1 - 1);
-		$('#queryOrder-form').submit();
+		$('#page-form1 .currentPage').val($('#page-form1 .currentPage').val()*1 - 1);
+		$('#page-form1').submit();
 	});
 	
-	$('.page-next').click(function(){
+	$('#page-form1 .page-next').click(function(){
 		// 下一页
-		$('.currentPage').val($('.currentPage').val()*1 + 1);
-		$('#queryOrder-form').submit();
+		$('#page-form1 .currentPage').val($('#page-form1 .currentPage').val()*1 + 1);
+		$('#page-form1').submit();
 	});
 	
-	$('.page-last').click(function(){
+	$('#page-form1 .page-last').click(function(){
 		// 尾页
-		$('.currentPage').val($('.pageCount').val());
-		$('#queryOrder-form').submit();
+		$('#page-form1 .currentPage').val($('#page-form1 .pageCount').val());
+		$('#page-form1').submit();
 	});
 	
-	$('.currentPage').keydown(function(event){
+	$('#page-form1 .currentPage').keydown(function(event){
 		if(event.keyCode == 13){
 			var cp = $.trim($(this).val());
 			if(cp == '' || !numRex.test(cp)){
@@ -172,8 +172,8 @@ $(document).ready(function(){
 				    show:true
 				});
 				return false;
-			} else if(cp <= 0 || cp > $('.pageCount').val()){
-				$('#tipModal .modal-body > p').html('请输入1-'+$('.pageCount').val()+'之间的数字！');
+			} else if(cp <= 0 || cp > $('#page-form1 .pageCount').val()){
+				$('#tipModal .modal-body > p').html('请输入1-'+$('#page-form1 .pageCount').val()+'之间的数字！');
 				$('#tipModal').modal({
 				    backdrop:true,
 				    keyboard:true,
@@ -181,14 +181,14 @@ $(document).ready(function(){
 				});
 				return false;
 			} else { // 第几页
-				$('#queryOrder-form').submit();
+				$('#page-form1').submit();
 			}
 		}
 	});
 	
-	$('.page-size').change(function(){
+	$('#page-form1 .page-size').change(function(){
 		// 每页条数
-		$('#queryOrder-form').submit();
+		$('#page-form1').submit();
 	});
 	
 	// ================== 取消订单
