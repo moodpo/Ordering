@@ -258,4 +258,64 @@ public class UserServiceImpl implements IUserService{
 		}
 		return null;
 	}
+
+	@Override
+	public String cookieLogin(User user, Map<String, Object> session)
+			throws ServiceException {
+		// 查询邮箱
+		User fu = this.findUserByEmail(user);
+		// 邮箱不存在
+		if(fu == null){
+			logger.info("Email is not exist !");
+			return OtherConstants.EMAIL_NOT_EXIST;
+		}
+		// 密码错误
+		if(!fu.getUserPWD().equals(user.getUserPWD())){
+			logger.info("Password is error !");
+			return OtherConstants.PASSWORD_ERROR;
+		}
+		// 开始登录过程
+		// 1.查询所属组列表
+		String userID = fu.getId();
+		try {
+			@SuppressWarnings("rawtypes")
+			List list = groupDaoImpl.query(fu, SqlConstants.GROUP_QUERY_BY_UID);
+			List<Group> groups = new ArrayList<Group>();
+			int temp = 0;
+			for (Object object : list) {
+				Group group = (Group)object;
+				// groupID 的大小决定了权限的高低
+				int groupID = Integer.parseInt(group.getId());
+				if(groupID > 0){
+					temp = groupID;
+				}
+				groups.add(group);
+			}
+			fu.setGroups(groups);
+			fu.setAuth(String.valueOf(temp));
+		} catch (DBException e) {
+			logger.error(OtherConstants.DB_ERROR,e);
+			return OtherConstants.DB_ERROR;
+		}
+		// 2.查询充值金额
+		Money money = new Money();
+		money.setUserID(userID);
+		
+		try {
+			@SuppressWarnings("rawtypes")
+			List list = moneyDaoImpl.query(money, SqlConstants.MONEY_FIND_BY_UID);
+			if(list != null && list.size() > 0){
+				money = (Money)list.get(0);
+				fu.setMoneyValue(money.getMoneyValue());
+			}else{
+				fu.setMoneyValue(0);
+			}
+		} catch (DBException e) {
+			logger.error(OtherConstants.DB_ERROR,e);
+			return OtherConstants.DB_ERROR;
+		}
+		// 3.缓存到session
+		session.put(OtherConstants.CURRENT_USER, fu);
+		return null;
+	}
 }

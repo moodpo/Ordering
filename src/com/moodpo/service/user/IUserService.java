@@ -50,6 +50,15 @@ public interface IUserService {
 	public String login(User user, Map<String,Object> session) throws ServiceException;
 	
 	/**
+	 * 通过cookie登录
+	 * @param user
+	 * @param session
+	 * @return
+	 * @throws ServiceException
+	 */
+	public String cookieLogin(User user, Map<String,Object> session) throws ServiceException;
+	
+	/**
 	 * 找回密码
 	 * 1. 查询邮箱
 	 * 2. 重置密码

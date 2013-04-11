@@ -168,4 +168,14 @@ public class OtherConstants {
 	 */
 	public static String PAGE_INFO = "pageInfo";
 	
+	/**
+	 * 用户cookie
+	 */
+	public static String USER_COOKIE = "OrderCookie";
+	
+	/**
+	 * cookie分隔符
+	 */
+	public static String COOKIE_SPLIT = ",";
+	
 }

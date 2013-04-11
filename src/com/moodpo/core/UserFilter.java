@@ -97,7 +97,7 @@ public class UserFilter implements Filter {
                  return;
              }
 			logger.info("The url be filter!");
-			req.getRequestDispatcher(LOGIN_PAGE_VALUE).forward(req, res);
+			res.sendRedirect(req.getContextPath()+LOGIN_PAGE_VALUE);
 			return;
 		}
 		chain.doFilter(request, response);

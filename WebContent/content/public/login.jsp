@@ -1,7 +1,14 @@
+<%@page import="com.moodpo.utils.CookieUtils"%>
+<%@page import="com.moodpo.core.SysConfig"%>
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%
 	String path = request.getContextPath();
+	String mailSuffix = SysConfig.getConfig(SysConfig.EMAIL_SUFFIX);
+	boolean isCookie = CookieUtils.isHaveCookie(request);
+	if(isCookie){
+		response.sendRedirect(path + "/content/public/user!cookieLogin");
+	}
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -57,7 +64,7 @@
 									<label class="control-label" for="usermail">公司邮箱：</label>
 									<div class="controls">
 										<div class="input-append">
-											<s:textfield name="user.email" cssClass="input-medium" id="usermail" /><span class="add-on">@ultrapower.com.cn</span>
+											<s:textfield name="user.email" cssClass="input-medium" id="usermail" /><span class="add-on"><%=mailSuffix %></span>
 	              						</div>
 									</div>
 								</div>
@@ -73,6 +80,15 @@
 									<div class="controls">
 										<s:textfield name="validateCode" id="valicode" cssClass="input-small"/>
 										<img title="点击更换验证码" class="valicodeimg" src="<%=path %>/Kaptcha.jpg" width="100">
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label" for="autologin">&nbsp;</label>
+									<div class="controls">
+										<label class="checkbox" style="padding-left: 0;">
+											<s:checkbox cssStyle="margin-left: 0;margin-right: 10px;" name="autoLogin" id="autologin"/>
+											<span>下次自动登录</span>
+										</label>
 									</div>
 								</div>
 								<s:if test="msg != null">

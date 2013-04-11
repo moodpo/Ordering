@@ -2,7 +2,11 @@ package com.moodpo.core;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
+import org.apache.struts2.StrutsStatics;
 
 import com.moodpo.domain.User;
 import com.moodpo.utils.OtherConstants;
@@ -38,6 +42,20 @@ public class UserInterceptor implements Interceptor{
 			logger.info("The user pass UserInterceptor.");
 			return invocation.invoke();
 		}
+		
+		HttpServletRequest request = (HttpServletRequest)ctx.get(StrutsStatics.HTTP_REQUEST);
+		HttpServletResponse response = (HttpServletResponse)ctx.get(StrutsStatics.HTTP_RESPONSE);
+		String isAjaxRequest = request.getHeader("x-requested-with");
+        // 如果异步请求时Session过期,不作处理
+        if ("XMLHttpRequest".equals(isAjaxRequest)) {
+        	response.setContentType("text/text");
+        	response.setCharacterEncoding("UTF-8");
+        	response.getOutputStream().print("Session Timeout.");
+        	response.getOutputStream().close();
+            logger.info("The AJAX has been interceptor by UserInterceptor !");
+            return null;
+        }
+		
 		logger.info("The user has been interceptor by UserInterceptor !");
 		return Action.LOGIN;
 	}

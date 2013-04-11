@@ -1,7 +1,12 @@
+<%@page import="com.moodpo.utils.CookieUtils"%>
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%
 	String path = request.getContextPath();
+	boolean isCookie = CookieUtils.isHaveCookie(request);
+	if(isCookie){
+		response.sendRedirect(path + "/content/public/user!cookieLogin");
+	}
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">

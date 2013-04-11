@@ -8,6 +8,7 @@ import com.google.code.kaptcha.Constants;
 import com.moodpo.common.BaseAction;
 import com.moodpo.domain.User;
 import com.moodpo.service.user.IUserService;
+import com.moodpo.utils.CookieUtils;
 import com.moodpo.utils.OtherConstants;
 import com.moodpo.utils.ResultConstants;
 
@@ -29,9 +30,18 @@ public class UserAction extends BaseAction{
 	
 	private User user;
 	private String validateCode;
-	private String newPwd;
-	private String infoFlag;
+	private String newPwd; // 新密码
+	private String infoFlag; // 修改个人信息类型(基本信息/修改密码)
+	private boolean autoLogin; // 是否自动登录
 	
+	public boolean isAutoLogin() {
+		return autoLogin;
+	}
+
+	public void setAutoLogin(boolean autoLogin) {
+		this.autoLogin = autoLogin;
+	}
+
 	public String getInfoFlag() {
 		return infoFlag;
 	}
@@ -125,6 +135,11 @@ public class UserAction extends BaseAction{
 			}
 			// 根据用户的权限转发并初始化页面
 			User currUser = (User)session.get(OtherConstants.CURRENT_USER);
+			// 是否自动登录
+			if(this.isAutoLogin()){
+				CookieUtils.addCookie(currUser, response);
+				logger.info("user cookie add.");
+			}
 			// 管理员登录
 			if(OtherConstants.ADMIN_GROUP_ID.equals(currUser.getAuth())){
 				logger.info("Admin user login system !");
@@ -148,6 +163,7 @@ public class UserAction extends BaseAction{
 	public String logout() throws Exception {
 		logger.info("User had logout system !");
 		session.clear();
+		CookieUtils.cleanCookie(request, response);
 		return SUCCESS;
 	}
 	
@@ -167,6 +183,8 @@ public class UserAction extends BaseAction{
 				logger.info("user findPwd end.");
 				return ResultConstants.FIND_PWD_FAIL;
 			}
+			// 清除cookie
+			CookieUtils.cleanCookie(request, response);
 			logger.info("user findPwd end.");
 			return ResultConstants.FIND_PWD_SUCCESS;
 		}
@@ -215,6 +233,8 @@ public class UserAction extends BaseAction{
 				logger.info("user alterPwd end.");
 				return ResultConstants.ALTER_PWD_FAIL; 
 			}
+			// 清除cookie
+			CookieUtils.cleanCookie(request, response);
 			// 退出系统重新登录
 			logger.info("User had logout system !");
 			session.clear();
@@ -224,5 +244,42 @@ public class UserAction extends BaseAction{
 		addFieldError(OtherConstants.FIELD_VALIDATE_CODE, OtherConstants.VALIDATE_CODE_ERROR);
 		logger.info("user alterPwd end.");
 		return ResultConstants.ALTER_PWD_FAIL; 
+	}
+	
+	/**
+	 * 通过cookie登录
+	 * @return
+	 * @throws Exception
+	 */
+	public String cookieLogin() throws Exception {
+		logger.info("user cookieLogin start.");
+		user = CookieUtils.getCookie(request);
+		if(user != null){
+			// 调用登录逻辑
+			String login = userServiceImpl.cookieLogin(user,session);
+			if(login != null){
+				this.setMsg(login);
+				// 清除cookie
+				CookieUtils.cleanCookie(request, response);
+				logger.info("user cookieLogin end.");
+				return ResultConstants.LOGIN_FAIL;
+			}
+			// 根据用户的权限转发并初始化页面
+			User currUser = (User)session.get(OtherConstants.CURRENT_USER);
+			// 管理员登录
+			if(OtherConstants.ADMIN_GROUP_ID.equals(currUser.getAuth())){
+				logger.info("Admin user login system !");
+				return ResultConstants.LOGIN_SUCCESS_ADMIN;
+			}
+			// 普通用户登录
+			if(OtherConstants.USER_GROUP_ID.equals(currUser.getAuth())){
+				logger.info("A user login system !");
+				return ResultConstants.LOGIN_SUCCESS_USER;
+			}
+		}
+		// 清除cookie
+		CookieUtils.cleanCookie(request, response);
+		logger.info("user cookieLogin end.");
+		return ResultConstants.LOGIN_FAIL;
 	}
 }

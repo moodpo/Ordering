@@ -243,6 +243,13 @@ function submitPrice(index){
 				tr = tr + '<td>'+priceNum+'</td>';
 				tr = tr + '<td> <a class="btn btn-mini btn-danger" onclick=cancelPrice("'+submitIndex+'",this)>取消</a> </td>';
 				$('#select-tbody').append(tr);
+			}else if(data.indexOf('Timeout') > -1){
+				$('#tipModal .modal-body > p').html('未能提交订餐，登录超时，请重新登陆！');
+				$('#tipModal').modal({
+				    backdrop:true,
+				    keyboard:true,
+				    show:true
+				});
 			}else{
 				$('#tipModal .modal-body > p').html('未能提交订餐，发生未知错误请联系管理员！');
 				$('#tipModal').modal({
@@ -284,7 +291,14 @@ function doCancelPrice(){
 				if(data == 'success'){
 					$(cancelRow).parent().parent().fadeIn();
 					$(cancelRow).parent().parent().remove();
-				}else{
+				} else if(data.indexOf('Timeout') > -1){
+					$('#tipModal .modal-body > p').html('未能取消订餐，登录超时，请重新登陆！');
+					$('#tipModal').modal({
+					    backdrop:true,
+					    keyboard:true,
+					    show:true
+					});
+				} else {
 					$('#tipModal .modal-body > p').html('未能取消订餐，发生未知错误请联系管理员！');
 					$('#tipModal').modal({
 					    backdrop:true,

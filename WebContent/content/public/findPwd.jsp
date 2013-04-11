@@ -1,7 +1,14 @@
+<%@page import="com.moodpo.utils.CookieUtils"%>
+<%@page import="com.moodpo.core.SysConfig"%>
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%
 	String path = request.getContextPath();
+	String mailSuffix = SysConfig.getConfig(SysConfig.EMAIL_SUFFIX);
+	boolean isCookie = CookieUtils.isHaveCookie(request);
+	if(isCookie){
+		response.sendRedirect(path + "/content/public/user!cookieLogin");
+	}
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -27,7 +34,6 @@
 						<ul class="nav">
 							<li><a href="<%=path %>">首页</a></li>
 							<li></li>
-							<li><a href="<%=path %>/content/public/ordering.jsp">订餐</a></li>
 						</ul>
 						<ul class="nav pull-right">
 							<!-- 未登录 -->
@@ -59,7 +65,7 @@
 									<label class="control-label" for="usermail">公司邮箱：</label>
 									<div class="controls">
 										<div class="input-append">
-											<s:textfield name="user.email" cssClass="input-medium" id="usermail" /><span class="add-on">@ultrapower.com.cn</span>
+											<s:textfield name="user.email" cssClass="input-medium" id="usermail" /><span class="add-on"><%=mailSuffix %></span>
 	              						</div>
 									</div>
 								</div>
