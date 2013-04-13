@@ -15,6 +15,7 @@ import com.moodpo.domain.Price;
 import com.moodpo.service.ordering.IOrderingService;
 import com.moodpo.service.param.IParamService;
 import com.moodpo.utils.OtherConstants;
+import com.moodpo.utils.ResultConstants;
 
 /**
  * 订餐动作
@@ -76,14 +77,15 @@ public class OrderingAction extends BaseAction{
 		if(!OtherConstants.STATE_ORDERING_YES.equals(param.getParamValue())){ //订餐未开始
 			request.setAttribute(OtherConstants.TODAY_ORDERING_INFO, OtherConstants.TODAY_ORDERING_STOP);
 			logger.info("init today ordering end.");
-			return null;
+			return ResultConstants.TODAY_ORDERING;
 		}
 		// 查询今日菜单列表
 		List<Price> prices = orderingServiceImpl.todayOrdering();
 		// 查询今日菜单公告
 		param = paramServiceImpl.findParamByCode(OtherConstants.CODE_TODAY_FOOD_INFO);
 		if(param != null){
-			request.setAttribute(OtherConstants.TODAY_ORDERING_INFO, param.getParamDis());
+			request.setAttribute(OtherConstants.TODAY_ORDERING_INFO, param.getParamDis(
+					));
 		}
 		// 查询设置的订餐份数列表
 		String[] numList = {"1","2","3","4","5"};
@@ -91,7 +93,7 @@ public class OrderingAction extends BaseAction{
 		request.setAttribute(OtherConstants.TODAY_ORDERING, prices);
 		request.setAttribute(OtherConstants.NUM_LIST, numList);
 		logger.info("init today ordering end.");
-		return null;
+		return ResultConstants.TODAY_ORDERING;
 	}
 	
 	/**

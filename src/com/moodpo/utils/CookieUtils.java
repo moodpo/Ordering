@@ -30,7 +30,6 @@ public class CookieUtils {
 			return null;
 		}
 		for (Cookie cookie : cookies) {
-			logger.info("Cookie Name : " + cookie.getName());
 			if(OtherConstants.USER_COOKIE.equals(cookie.getName())){
 				String value = cookie.getValue();
         		if(value != null && value != ""){
@@ -57,8 +56,8 @@ public class CookieUtils {
 			return false;
 		}
 		for (Cookie cookie : cookies) {
-			logger.info("Cookie Name : " + cookie.getName());
 			if(OtherConstants.USER_COOKIE.equals(cookie.getName())){
+				logger.info("Cookie Name : " + cookie.getName());
 				String value = cookie.getValue();
         		if(value != null && value != ""){
         			return true;

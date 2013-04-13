@@ -82,7 +82,7 @@ public class ResultConstants {
 	/**
 	 * 分页查询订单
 	 */
-	public static String QUERY_ORDER_LIST = "page.query.page.list";
+	public static String QUERY_ORDER_LIST = "page.query.order.list";
 	
 	/**
 	 * 取消订单成功
@@ -93,4 +93,9 @@ public class ResultConstants {
 	 * 取消订单失败
 	 */
 	public static String CANCEL_ORDER_FAIL = "page.cancel.order.fail";
+	
+	/**
+	 * 订餐页面初始化
+	 */
+	public static String TODAY_ORDERING = "page.today.ordering";
 }

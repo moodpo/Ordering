@@ -61,6 +61,12 @@ body{
 	padding: 2px 6px;
 }
 
+.navbar a.brand{
+	font-family: '宋体';
+	color: #5CB95C;
+	font-weight: 600;
+}
+
 /* index css ============================== */
 #left-text{
 	padding: 20px 40px;;
@@ -165,6 +171,11 @@ hr.soften {
 	text-decoration: none;
 }
 
+
+#autologin{
+	margin: 3px 10px 0 0; 
+	padding:0;
+}
 
 /* ordering css ================================ */
 .main-show .table th, 

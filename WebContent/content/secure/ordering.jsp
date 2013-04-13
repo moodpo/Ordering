@@ -18,8 +18,6 @@
 </head>
 <body>
 	<s:set name="user" value="#session.current_user_obj" />
-	<!-- 初始化菜品列表 -->
-	<s:action name="ordering!todayOrdering" executeResult="true"/>
 	<div id="wrapper">
 		<!-- header =======================================================-->
 		<header id="page-header">
@@ -30,8 +28,8 @@
 						<ul class="nav">
 							<li><a href="<%=path %>">首页</a></li>
 							<li></li>
-							<li class="active"><a href="<%=path %>/content/secure/ordering.jsp">订餐</a></li>
-							<li><a href="<%=path %>/content/secure/order.jsp">订单</a></li>
+							<li class="active"><a href="<%=path %>/content/secure/ordering!todayOrdering.do">订餐</a></li>
+							<li><a href="<%=path %>/content/secure/order!queryOrder.do">订单</a></li>
 							<s:if test="#user.auth > 1">
 								<li><a href="<%=path %>/content/manage/dishes.jsp">菜品管理</a></li>
 								<li><a href="<%=path %>/content/manage/ordering.jsp">订餐管理</a></li>
@@ -47,12 +45,12 @@
 								<ul class="dropdown-menu">
 									<li><a href="<%=path %>/content/secure/userInfo.jsp">修改个人信息</a></li>
 									<li class="divider"></li>
-									<li><a href="<%=path %>/content/public/user!logout">退出</a></li>
+									<li><a href="<%=path %>/content/public/user!logout.do">退出</a></li>
 								</ul>
 				            </li>
 							<li class="divider-vertical"></li>
 							<li><a href="<%=path %>/content/public/help.jsp">帮助</a></li>
-							<li><a href="<%=path %>/content/public/feedback.jsp">问题反馈</a></li>
+							<li><a href="mailto:yangxiaoxiehaha@gmail.com">问题反馈</a></li>
 						</ul>
 					</div>
 				</div>
@@ -163,7 +161,7 @@
 				            </div>
 				    	</div>
 				    	<div class="form-actions main-btn">
-				            <a href="<%=path %>/content/secure/order!createOrder" class="btn btn-primary">生成订单</a>
+				            <a href="<%=path %>/content/secure/order!createOrder.do" class="btn btn-primary">生成订单</a>
 				        </div>
 					</div>
 				</div>

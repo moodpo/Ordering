@@ -231,7 +231,7 @@ function submitPrice(index){
 	var priceID = $('#priceID-'+index).val();
 	var dicID = $('#dicID-'+index).val();
 	// 异步提交选择的饭菜
-	var toUrl = PATH + '/content/secure/ordering!selectOrdering';
+	var toUrl = PATH + '/content/secure/ordering!selectOrdering.do';
 	$.post(toUrl,{'price.id':priceID,'dic.id':dicID,'price.priceNum':priceNum},
 		function(data){
 			if(data.indexOf('success') > -1){
@@ -285,7 +285,7 @@ function commitCancel(){
 // ========== 执行取消选择操作
 function doCancelPrice(){
 	// 异步取消选择的饭菜
-	var toUrl = PATH + '/content/secure/ordering!cancelOrdering';
+	var toUrl = PATH + '/content/secure/ordering!cancelOrdering.do';
 	$.post(toUrl,{'index':cancelIndex},
 			function(data){
 				if(data == 'success'){

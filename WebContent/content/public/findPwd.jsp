@@ -41,7 +41,7 @@
 							<li><a href="<%=path %>/content/public/sign.jsp">注册</a></li>
 							<li class="divider-vertical"></li>
 							<li><a href="<%=path %>/content/public/help.jsp">帮助</a></li>
-							<li><a href="<%=path %>/content/public/feedback.jsp">问题反馈</a></li>
+							<li><a href="mailto:yangxiaoxiehaha@gmail.com">问题反馈</a></li>
 						</ul>
 					</div>
 				</div>
@@ -59,7 +59,7 @@
 					    <h3>找回密码</h3>
 				  	</div>
 					<div class="box-body">
-						<s:form action="user!findPwd" id="findPwd-form" method="post" cssClass="form-horizontal">	
+						<s:form action="user!findPwd.do" id="findPwd-form" method="post" cssClass="form-horizontal">	
 							<fieldset>
 								<div class="control-group">
 									<label class="control-label" for="usermail">公司邮箱：</label>

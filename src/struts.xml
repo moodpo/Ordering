@@ -8,7 +8,7 @@
 	<constant name="struts.i18n.reload" value="true"></constant>
 	<constant name="struts.configuration.xml.reload" value="true"></constant>
 	<constant name="struts.ui.theme" value="simple"></constant>
-	<!-- <constant name="struts.action.extension" value=""/> -->
+	<constant name="struts.action.extension" value="do"/>
 	<constant name="struts.custom.i18n.resources" value="resources/global-messages" />
 	
 	<!-- 公共包  type="redirect" -->
@@ -20,7 +20,10 @@
 			<!-- 管理员 -->
 			<result name="page.login.success.admin" type="redirect">/content/manage/order.jsp</result>
 			<!-- 普通用户 -->
-			<result name="page.login.success.user" type="redirect">/content/secure/ordering.jsp</result>
+			<result name="page.login.success.user" type="redirectAction">
+				<param name="actionName">ordering!todayOrdering.do</param>
+				<param name="namespace">/content/secure</param>
+			</result>
 			<result name="page.login.fail">/content/public/login.jsp</result>
 			<!-- 找回密码 -->
 			<result name="page.findPwd.success" type="redirect">/content/public/login.jsp</result>
@@ -56,15 +59,21 @@
 		</action>
 		<!-- 订餐 -->
 		<action name="ordering" class="com.moodpo.action.ordering.OrderingAction">
+			<!-- 查询今日菜品 -->
+			<result name="page.today.ordering">/content/secure/ordering.jsp</result>
 		</action>
 		<!-- 订单 -->
 		<action name="order" class="com.moodpo.action.order.OrderAction">
 			<!-- 生成订单失败 -->
 			<result name="page.create.order.fail">/content/secure/ordering.jsp</result>
 			<!-- 生成订单成功 -->
-			<result name="page.create.order.success" type="redirect">/content/secure/order.jsp</result>
+			<result name="page.create.order.success" type="redirectAction">
+				<param name="actionName">order!queryOrder.do</param>
+				<param name="namespace">/content/secure</param>
+			</result>
+			<!-- <result name="page.create.order.success" type="redirect">/content/secure/order.jsp</result> -->
 			<!-- 分页查询订单 -->
-			<result name="page.query.page.list">/content/secure/pageOrder.jsp</result>
+			<result name="page.query.order.list">/content/secure/order.jsp</result>
 			<!-- 取消订单成功 -->
 			<result name="page.cancel.order.success" type="redirect">/content/secure/order.jsp</result>
 			<!-- 取消订单失败 -->

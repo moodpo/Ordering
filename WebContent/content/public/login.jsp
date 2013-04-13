@@ -40,7 +40,7 @@
 							<li><a href="<%=path %>/content/public/sign.jsp">注册</a></li>
 							<li class="divider-vertical"></li>
 							<li><a href="<%=path %>/content/public/help.jsp">帮助</a></li>
-							<li><a href="<%=path %>/content/public/feedback.jsp">问题反馈</a></li>
+							<li><a href="mailto:yangxiaoxiehaha@gmail.com">问题反馈</a></li>
 						</ul>
 					</div>
 				</div>
@@ -58,7 +58,7 @@
 					    <h3>用户登录</h3>
 				  	</div>
 					<div class="box-body">
-						<s:form action="user!login" id="login-form" method="post" cssClass="form-horizontal">	
+						<s:form action="user!login.do" id="login-form" method="post" cssClass="form-horizontal">	
 							<fieldset>
 								<div class="control-group">
 									<label class="control-label" for="usermail">公司邮箱：</label>
@@ -85,8 +85,8 @@
 								<div class="control-group">
 									<label class="control-label" for="autologin">&nbsp;</label>
 									<div class="controls">
-										<label class="checkbox" style="padding-left: 0;">
-											<s:checkbox cssStyle="margin-left: 0;margin-right: 10px;" name="autoLogin" id="autologin"/>
+										<label class="checkbox" style="padding-left: 0;*line-height: 28px;">
+											<s:checkbox name="autoLogin" id="autologin"/>
 											<span>下次自动登录</span>
 										</label>
 									</div>

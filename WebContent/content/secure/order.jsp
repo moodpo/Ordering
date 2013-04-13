@@ -18,7 +18,7 @@
 </head>
 <body>
 	<s:set name="user" value="#session.current_user_obj" />
-	<s:action name="order!queryOrder" executeResult="false"/>
+	<s:action name="order!queryOrder" executeResult="false" />
 	<div id="wrapper">
 		<!-- header =======================================================-->
 		<header id="page-header">
@@ -29,7 +29,7 @@
 						<ul class="nav">
 							<li><a href="<%=path %>">首页</a></li>
 							<li></li>
-							<li><a href="<%=path %>/content/secure/ordering.jsp">订餐</a></li>
+							<li><a href="<%=path %>/content/secure/ordering!todayOrdering.do">订餐</a></li>
 							<li class="active"><a href="<%=path %>/content/secure/order.jsp">订单</a></li>
 							<s:if test="#user.auth > 1">
 								<li><a href="<%=path %>/content/manage/dishes.jsp">菜品管理</a></li>
@@ -46,12 +46,12 @@
 								<ul class="dropdown-menu">
 									<li><a href="<%=path %>/content/secure/userInfo.jsp">修改个人信息</a></li>
 									<li class="divider"></li>
-									<li><a href="<%=path %>/content/public/user!logout">退出</a></li>
+									<li><a href="<%=path %>/content/public/user!logout.do">退出</a></li>
 								</ul>
 				            </li>
 							<li class="divider-vertical"></li>
 							<li><a href="<%=path %>/content/public/help.jsp">帮助</a></li>
-							<li><a href="<%=path %>/content/public/feedback.jsp">问题反馈</a></li>
+							<li><a href="mailto:yangxiaoxiehaha@gmail.com">问题反馈</a></li>
 						</ul>
 					</div>
 				</div>
@@ -109,7 +109,7 @@
 										</td>
 										<td width="70px"> <!-- <a class="btn btn-mini btn-success">付款</a> --> 
 											<s:if test="orderState == '01'">
-												<s:form action="order!cancelOrder" method="post" style="margin:0;padding:0;">
+												<s:form action="order!cancelOrder.do" method="post" style="margin:0;padding:0;">
 													<s:hidden value="%{id}" name="order.id"></s:hidden>
 													<a class="btn btn-mini btn-danger cancelOrder">取消订单</a>
 												</s:form>
@@ -120,7 +120,7 @@
 							</tbody>
 						</table>
 						
-						<s:form action="order!queryOrder" method="post" id="page-form1">
+						<s:form action="order!queryOrder.do" method="post" id="page-form1">
 						<!-- pagination -->
 						<div class="well mypagination">
 							<s:if test="#request.pageInfo != null">
@@ -186,7 +186,7 @@
 		<!-- /container -->
 		
 		
-		<!-- footer =======================================================-->
+		<!-- footer ======================================================= -->
 		<footer id="page-footer">
 			<div>
 			&copy; 2013. Create by <a title="Twitter Bootstrap" href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a> &amp;

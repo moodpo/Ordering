@@ -28,8 +28,8 @@
 						<ul class="nav">
 							<li><a href="<%=path %>">首页</a></li>
 							<li></li>
-							<li><a href="<%=path %>/content/secure/ordering.jsp">订餐</a></li>
-							<li><a href="<%=path %>/content/secure/order.jsp">订单</a></li>
+							<li><a href="<%=path %>/content/secure/ordering!todayOrdering.do">订餐</a></li>
+							<li><a href="<%=path %>/content/secure/order!queryOrder.do">订单</a></li>
 							<s:if test="#user.auth > 1">
 								<li><a href="<%=path %>/content/manage/dishes.jsp">菜品管理</a></li>
 								<li><a href="<%=path %>/content/manage/ordering.jsp">订餐管理</a></li>
@@ -45,12 +45,12 @@
 								<ul class="dropdown-menu">
 									<li><a href="<%=path %>/content/secure/userInfo.jsp">修改个人信息</a></li>
 									<li class="divider"></li>
-									<li><a href="<%=path %>/content/public/user!logout">退出</a></li>
+									<li><a href="<%=path %>/content/public/user!logout.do">退出</a></li>
 								</ul>
 				            </li>
 							<li class="divider-vertical"></li>
 							<li><a href="<%=path %>/content/public/help.jsp">帮助</a></li>
-							<li><a href="<%=path %>/content/public/feedback.jsp">问题反馈</a></li>
+							<li><a href="mailto:yangxiaoxiehaha@gmail.com">问题反馈</a></li>
 						</ul>
 					</div>
 				</div>
@@ -81,7 +81,7 @@
 							
 								<s:if test='infoFlag == null || infoFlag == "0"'>
 								<div class="tab-pane fade active in" id="baseinfo-div">
-									<s:form action="user!alterName" cssClass="form-horizontal" id="alertName-form" method="post">
+									<s:form action="user!alterName.do" cssClass="form-horizontal" id="alertName-form" method="post">
 										<s:hidden name="user.id" value="%{#user.id}"/>
 										<fieldset>
 											<div class="control-group">
@@ -98,7 +98,7 @@
 									</s:form>
 								</div>
 								<div class="tab-pane fade in" id="alterpwd-div">
-									<s:form action="user!alterPwd" cssClass="form-horizontal" id="alertPwd-form" method="post">
+									<s:form action="user!alterPwd.do" cssClass="form-horizontal" id="alertPwd-form" method="post">
 										<s:hidden name="user.id" value="%{#user.id}"/>
 										<fieldset>
 											<div class="control-group">
@@ -140,7 +140,7 @@
 								
 								<s:if test='infoFlag == "1"'>
 								<div class="tab-pane fade in" id="baseinfo-div">
-									<s:form action="user!alterName" cssClass="form-horizontal" id="alertName-form" method="post">
+									<s:form action="user!alterName.do" cssClass="form-horizontal" id="alertName-form" method="post">
 										<s:hidden name="user.id" value="%{#user.id}"/>
 										<fieldset>
 											<div class="control-group">
@@ -157,7 +157,7 @@
 									</s:form>
 								</div>
 								<div class="tab-pane fade active in" id="alterpwd-div">
-									<s:form action="user!alterPwd" cssClass="form-horizontal" id="alertPwd-form" method="post">
+									<s:form action="user!alterPwd.do" cssClass="form-horizontal" id="alertPwd-form" method="post">
 										<s:hidden name="user.id" value="%{#user.id}"/>
 										<fieldset>
 											<div class="control-group">
