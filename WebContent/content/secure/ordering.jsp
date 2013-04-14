@@ -168,7 +168,7 @@
 				<!-- 提示信息 -->
 				<div class="span3">
 					<div class="well notify-info">
-						<p><s:property value="#request.today_ordering_info"/></p>
+						<p><s:property value="#request.today_ordering_info" escapeHtml="false"/></p>
 					</div>
 				</div>
 			</div>
