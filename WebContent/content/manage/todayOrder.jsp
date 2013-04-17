@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>订餐系统 - 订单</title>
+<title>订餐系统 - 今日订单</title>
 <link rel="shortcut icon" href="<%=path %>/favicon.ico" />
 <link rel="stylesheet" href="<%=path %>/common/bootstrap/css/bootstrap.min.css" />
 <link rel="stylesheet" href="<%=path %>/style/css/base.css" />
@@ -26,7 +26,7 @@
 					<div class="container">
 						<a class="brand" href="<%=path %>">订餐系统</a>
 						<ul class="nav">
-							<li><a href="<%=path %>">首页</a></li>
+							<li class="active"><a href="<%=path %>">首页</a></li>
 							<li></li>
 							<li><a href="<%=path %>/content/secure/ordering!todayOrdering.do">订餐</a></li>
 							<li><a href="<%=path %>/content/secure/order!queryOrder.do">订单</a></li>
@@ -64,7 +64,7 @@
 				<!-- 订单列表及详细订单 -->
 				<div class="span9 main-show">
 					<div class="main-inner">
-						<div class="legend">订单列表</div>
+						<div class="legend">今日订单</div>
 						<!-- 提示信息 -->
 						<s:if test="msg != null">
 							<div class="alert">
@@ -87,7 +87,7 @@
 							<tbody>
 								<s:iterator value="#request.current_order_list" status="itStatus">
 									<tr>
-										<td width="40px"><s:property value="#user.loginName"/></td>
+										<td width="40px"><s:property value="loginName"/></td>
 										<td><code><s:property value="orderTotle"/></code></td>
 										<td width="80px"><s:property value="orderDate"/></td>
 										<td width="50px">
@@ -119,7 +119,7 @@
 							</tbody>
 						</table>
 						
-						<s:form action="order!queryOrder.do" method="post" id="page-form1">
+						<s:form action="order!queryAllOrder.do" method="post" id="page-form1">
 						<!-- pagination -->
 						<div class="well mypagination">
 							<s:if test="#request.pageInfo != null">

@@ -33,7 +33,7 @@
 							<s:if test="#user.auth > 1">
 								<li><a href="<%=path %>/content/manage/dishes.jsp">菜品管理</a></li>
 								<li><a href="<%=path %>/content/manage/ordering.jsp">订餐管理</a></li>
-								<li><a href="<%=path %>/content/manage/order.jsp">订单管理</a></li>
+								<li><a href="<%=path %>/content/manage/order!queryAllOrder.do">订单管理</a></li>
 								<li><a href="<%=path %>/content/manage/user.jsp">用户管理</a></li>
 							</s:if>
 						</ul>

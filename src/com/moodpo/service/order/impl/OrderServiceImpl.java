@@ -16,6 +16,7 @@ import com.moodpo.dao.detail.IDetailDao;
 import com.moodpo.dao.food.IFoodDao;
 import com.moodpo.dao.order.IOrderDao;
 import com.moodpo.dao.ordering.IOrderingDao;
+import com.moodpo.dao.user.IUserDao;
 import com.moodpo.domain.Detail;
 import com.moodpo.domain.Dic;
 import com.moodpo.domain.Food;
@@ -54,6 +55,9 @@ public class OrderServiceImpl implements IOrderService{
 	
 	@Resource
 	IOrderingDao orderingDaoImpl;
+	
+	@Resource
+	IUserDao userDaoImpl;
 	
 	public String createOrder(Map<Integer, Price> priceMap,User user)
 			throws ServiceException {
@@ -164,6 +168,64 @@ public class OrderServiceImpl implements IOrderService{
 			logger.error(OtherConstants.DB_ERROR,e);
 			return OtherConstants.DB_ERROR;
 		}
+		return null;
+	}
+
+	public String queryAllOrder(Order order, Pagination pagination,
+			HttpServletRequest request) throws ServiceException {
+		// 分页信息
+		if(pagination == null){
+			pagination = new Pagination();
+		}
+		Map<String, Object> queryMap = new HashMap<String, Object>();
+		queryMap.put("order", order);
+		int count = 0;
+		try {
+			count = orderDaoImpl.count(queryMap, SqlConstants.ORDER_COUNT);
+		} catch (DBException e) {
+			logger.error(OtherConstants.DB_ERROR,e);
+			return OtherConstants.DB_ERROR;
+		}
+		if(count == 0){
+			logger.info(OtherConstants.HAVE_NO_ORDER);
+			return OtherConstants.HAVE_NO_ORDER;
+		}
+		pagination.setCount(count);
+		queryMap.put(OtherConstants.START_ROW, pagination.getStartRow());
+		queryMap.put(OtherConstants.END_ROW, pagination.getEndRow());
+		
+		List<Order> orders = new ArrayList<Order>();
+		// 查询订单
+		try {
+			@SuppressWarnings("rawtypes")
+			List list = orderDaoImpl.query(queryMap, SqlConstants.ORDER_QUERY);
+			for (Object object : list) {
+				Order o = (Order)object;
+				String userID = o.getUserID();
+				User user = (User)userDaoImpl.find(userID, SqlConstants.USER_FIND_BY_ID);
+				if(user != null){
+					o.setLoginName(user.getLoginName());
+				}
+				// 查询订单详细信息
+				@SuppressWarnings("rawtypes")
+				List list2 = detailDaoImpl.query(o, SqlConstants.DETAIL_QUERY_BY_ORDERID);
+				List<Detail> details = new ArrayList<Detail>();
+				for (Object object2 : list2) {
+					Detail detail = (Detail)object2;
+					Price price = (Price)orderingDaoImpl.find(detail.getPriceID(), SqlConstants.PRICE_FIND_BY_ID);
+					price.setDicName(detail.getDicName());
+					detail.setPrice(price);
+					details.add(detail);
+				}
+				o.setDetails(details);
+				orders.add(o);
+			}
+		} catch (DBException e) {
+			logger.error(OtherConstants.DB_ERROR,e);
+			return OtherConstants.DB_ERROR;
+		}
+		request.setAttribute(OtherConstants.CURRENT_ORDER_LIST, orders);
+		request.setAttribute(OtherConstants.PAGE_INFO, pagination);
 		return null;
 	}
 	

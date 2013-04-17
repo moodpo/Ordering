@@ -11,6 +11,7 @@ import com.moodpo.domain.Order;
 import com.moodpo.domain.Price;
 import com.moodpo.domain.User;
 import com.moodpo.service.order.IOrderService;
+import com.moodpo.utils.DateBuilder;
 import com.moodpo.utils.OtherConstants;
 import com.moodpo.utils.ResultConstants;
 
@@ -81,10 +82,10 @@ public class OrderAction extends BaseAction{
 		if(res != null){
 			this.setMsg(res);
 			logger.info("queryOrder end.");
-			return res;
+			return ResultConstants.QUERY_ORDER_LIST_FAIL;
 		}
 		logger.info("queryOrder end.");
-		return ResultConstants.QUERY_ORDER_LIST;
+		return ResultConstants.QUERY_ORDER_LIST_SUCCESS;
 	}
 	
 	/**
@@ -103,5 +104,44 @@ public class OrderAction extends BaseAction{
 		}
 		logger.info("cancelOrder() end.");
 		return ResultConstants.CANCEL_ORDER_SUCCESS;
+	}
+	
+	/**
+	 * 分页查询所有订单 管理员查询
+	 * @return
+	 * @throws Exception
+	 */
+	public String queryAllOrder() throws Exception {
+		logger.info("queryAllOrder start.");
+		// 调用服务查询某人的所有订单
+		String res = orderServiceImpl.queryAllOrder(order, this.getPagination(), request);
+		if(res != null){
+			this.setMsg(res);
+			logger.info("queryAllOrder end.");
+			return ResultConstants.QUERY_ORDER_LIST_FAIL;
+		}
+		logger.info("queryAllOrder end.");
+		return ResultConstants.QUERY_ORDER_LIST_SUCCESS;
+	}
+	
+	/**
+	 * 查询今日订单
+	 * @return
+	 * @throws Exception
+	 */
+	public String queryTodayOrder() throws Exception {
+		logger.info("queryTodayOrder start.");
+		// 调用服务查询某人的所有订单
+		order = new Order();
+		order.setStartDate(DateBuilder.getTimeToDay());
+		order.setEndDate(DateBuilder.getNDaysChange(DateBuilder.getTimeToDay(), 1));
+		String res = orderServiceImpl.queryAllOrder(order, this.getPagination(), request);
+		if(res != null){
+			this.setMsg(res);
+			logger.info("queryTodayOrder end.");
+			return ResultConstants.QUERY_ORDER_TODAY_FAIL;
+		}
+		logger.info("queryTodayOrder end.");
+		return ResultConstants.QUERY_ORDER_TODAY_SUCCESS;
 	}
 }

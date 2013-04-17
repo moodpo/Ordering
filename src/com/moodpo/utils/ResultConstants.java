@@ -80,9 +80,25 @@ public class ResultConstants {
 	public static String CREATE_ORDER_FAIL = "page.create.order.fail";
 	
 	/**
-	 * 分页查询订单
+	 * 分页查询订单成功
 	 */
-	public static String QUERY_ORDER_LIST = "page.query.order.list";
+	public static String QUERY_ORDER_LIST_SUCCESS = "page.query.order.list.success";
+	
+	/**
+	 * 分页查询订单失败
+	 */
+	public static String QUERY_ORDER_LIST_FAIL = "page.query.order.list.fail";
+	
+	/**
+	 * 分页查询今日订单成功
+	 */
+	public static String QUERY_ORDER_TODAY_SUCCESS = "page.query.order.today.success";
+	
+	/**
+	 * 分页查询今日订单失败
+	 */
+	public static String QUERY_ORDER_TODAY_FAIL = "page.query.order.today.fail";
+	
 	
 	/**
 	 * 取消订单成功

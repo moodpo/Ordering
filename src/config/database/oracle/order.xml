@@ -49,4 +49,38 @@
 		delete from ORDERING_ORDER where ORDER_ID=#id# and ORDER_STATE='01'
 	</delete>
 	
+	<!-- 查询条件字段  orderDate loginName email orderState -->
+	<sql id="queryFiled">
+		<isNotNull prepend="AND" property="order.orderState">
+			ORDER_STATE = #order.orderState#
+		</isNotNull>
+		<isNotNull prepend="AND" property="order.loginName">
+			ORDER_ID in (select USER_ID from ORDERING_USER where USER_LOGIN like '%'||#order.loginName#||'%')
+		</isNotNull>
+		<isNotNull prepend="AND" property="order.email">
+			ORDER_ID in (select USER_ID from ORDERING_USER where USER_E_MAIL like '%'||#order.email#||'%')
+		</isNotNull>
+		<isNotNull prepend="AND" property="order.startDate">
+			ORDER_DATE &gt; to_date(#order.startDate#,'YYYY-MM-DD')
+		</isNotNull>
+		<isNotNull prepend="AND" property="order.endDate">
+			ORDER_DATE &lt; to_date(#order.endDate#,'YYYY-MM-DD')
+		</isNotNull>
+	</sql>
+	
+	<!-- 分页查询所有order -->
+	<select id="queryOrder" parameterClass="java.util.HashMap" resultMap="OrderResultMap">
+		select ORDER_ID,FK_USER_ID,ORDER_TOTLE,ORDER_DATE,ORDER_STATE,ORDER_SEQ from 
+			(select rownum tid,ORDER_ID,FK_USER_ID,ORDER_TOTLE,ORDER_DATE,ORDER_STATE,ORDER_SEQ from 
+				(select * from ORDERING_ORDER order by ORDER_DATE desc)
+		 	 where rownum &lt;= #endRow# <include refid="queryFiled"/> ) 
+		 	 where  tid &gt;= #startRow# <include refid="queryFiled"/> 
+	</select>
+	
+	<!-- order数量 -->
+	<select id="countOrder" parameterClass="java.util.HashMap" resultClass="int">
+		select count(*) from ORDERING_ORDER where 1=1  <include refid="queryFiled"/> 
+	</select>
+	
+	
 </sqlMap>

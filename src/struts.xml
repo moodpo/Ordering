@@ -17,9 +17,12 @@
 			<!-- 注册 -->
 			<result name="page.sign.success" type="redirect">/content/public/login.jsp</result>
 			<result name="page.sign.fail">/content/public/sign.jsp</result>
-			<!-- 管理员 -->
-			<result name="page.login.success.admin" type="redirect">/content/manage/order.jsp</result>
-			<!-- 普通用户 -->
+			<!-- 管理员登录 -->
+			<result name="page.login.success.admin" type="redirectAction">
+				<param name="actionName">order!queryTodayOrder.do</param>
+				<param name="namespace">/content/manage</param>
+			</result>
+			<!-- 普通用户登录 -->
 			<result name="page.login.success.user" type="redirectAction">
 				<param name="actionName">ordering!todayOrdering.do</param>
 				<param name="namespace">/content/secure</param>
@@ -72,8 +75,10 @@
 				<param name="namespace">/content/secure</param>
 			</result>
 			<!-- <result name="page.create.order.success" type="redirect">/content/secure/order.jsp</result> -->
-			<!-- 分页查询订单 -->
-			<result name="page.query.order.list">/content/secure/order.jsp</result>
+			<!-- 分页查询订单成功 -->
+			<result name="page.query.order.list.success">/content/secure/order.jsp</result>
+			<!-- 分页查询订单失败 -->
+			<result name="page.query.order.list.fail">/content/secure/order.jsp</result>
 			<!-- 取消订单成功 -->
 			<result name="page.cancel.order.success" type="redirect">/content/secure/order.jsp</result>
 			<!-- 取消订单失败 -->
@@ -83,7 +88,47 @@
 	
 	<!-- 管理包  -->
 	<package name="manage" namespace="/content/manage" extends="struts-default">
+		<!-- 管理员拦截器 -->
+		<interceptors>
+			<interceptor name="ManagerInterceptor" class="com.moodpo.core.ManagerInterceptor"></interceptor>
+			<interceptor-stack name="manageStack">
+				<interceptor-ref name="ManagerInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
 		
+		<default-interceptor-ref name="manageStack"></default-interceptor-ref>
+		
+		<global-results>
+			<result name="none" type="redirect">/index.jsp</result>
+		</global-results>
+		
+		<!-- 订单管理 -->
+		<action name="order" class="com.moodpo.action.order.OrderAction">
+			<!-- 分页查询订单成功 -->
+			<result name="page.query.order.list.success">/content/manage/order.jsp</result>
+			<!-- 分页查询订单失败 -->
+			<result name="page.query.order.list.fail">/content/manage/order.jsp</result>
+			<!-- 分页查询今日订单成功 -->
+			<result name="page.query.order.today.success">/content/manage/todayOrder.jsp</result>
+			<!-- 分页查询今日订单失败 -->
+			<result name="page.query.order.today.fail">/content/manage/todayOrder.jsp</result>
+		</action>
+		
+		<!-- 用户管理 -->
+		<action name="user" class="com.moodpo.action.user.UserAction">
+		
+		</action>
+		
+		<!-- 订餐管理 -->
+		<action name="ordering" class="com.moodpo.action.ordering.OrderingAction">
+			
+		</action>
+		
+		<!-- 订餐管理 -->
+		<action name="dishes" class="com.moodpo.action.dishes.DishesAction">
+		
+		</action>
 		
 	</package>
 </struts>

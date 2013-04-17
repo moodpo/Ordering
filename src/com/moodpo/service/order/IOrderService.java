@@ -46,4 +46,14 @@ public interface IOrderService {
 	 * @throws ServiceException
 	 */
 	public String cancelOrder(Order order) throws ServiceException;
+	
+	/**
+	 * 分页查询所有order
+	 * @param order
+	 * @param pagination
+	 * @param request
+	 * @return
+	 * @throws ServiceException
+	 */
+	public String queryAllOrder(Order order, Pagination pagination, HttpServletRequest request) throws ServiceException;
 }

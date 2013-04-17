@@ -24,8 +24,50 @@ public class Order extends Model{
 	
 	private String orderSeq;
 	
+	
+	
 	private List<Detail> details;
 	
+	private String loginName;
+	
+	private String email;
+	
+	private String startDate;
+	
+	private String endDate;
+	
+	public String getLoginName() {
+		return loginName;
+	}
+
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
 	public List<Detail> getDetails() {
 		return details;
 	}

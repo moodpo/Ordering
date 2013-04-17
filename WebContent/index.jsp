@@ -1,3 +1,4 @@
+<%@page import="com.moodpo.domain.User"%>
 <%@page import="com.moodpo.utils.OtherConstants"%>
 <%@page import="com.moodpo.utils.CookieUtils"%>
 <%@ page language="java" pageEncoding="UTF-8"%>
@@ -5,7 +6,12 @@
 <%
 	String path = request.getContextPath();
 	if(session.getAttribute(OtherConstants.CURRENT_USER) != null){
-		response.sendRedirect(path + "/content/secure/ordering!todayOrdering.do");
+		User user = (User)session.getAttribute(OtherConstants.CURRENT_USER);
+		if(OtherConstants.ADMIN_GROUP_ID.equals(user.getAuth())){
+			response.sendRedirect(path + "/content/manage/order!queryTodayOrder.do");
+		}else{
+			response.sendRedirect(path + "/content/secure/ordering!todayOrdering.do");
+		}
 	}else{
 		boolean isCookie = CookieUtils.isHaveCookie(request);
 		if(isCookie){
@@ -44,7 +50,7 @@
 								<s:if test="#user.auth > 1">
 									<li><a href="<%=path %>/content/manage/dishes.jsp">菜品管理</a></li>
 									<li><a href="<%=path %>/content/manage/ordering.jsp">订餐管理</a></li>
-									<li><a href="<%=path %>/content/manage/order.jsp">订单管理</a></li>
+									<li><a href="<%=path %>/content/manage/order!queryAllOrder.do">订单管理</a></li>
 									<li><a href="<%=path %>/content/manage/user.jsp">用户管理</a></li>
 								</s:if>
 							</s:if>
